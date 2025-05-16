@@ -1,0 +1,550 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Travel and Hospitality</title>
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+  <!-- Bootstrap Icons CDN -->
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.5/font/bootstrap-icons.css" rel="stylesheet">
+  <style>
+    .hero {
+    background-color: #f8f9fa;
+    min-height: 100vh;
+    padding-top: 100px;
+    position: relative;
+  }
+  
+
+.hero h1 {
+    font-size: 3rem;
+    font-weight: bold;
+    color: #fff;
+}
+
+.hero p {
+    font-size: 1.2rem;
+    margin-bottom: 1.5rem;
+    color: #fff;
+}
+
+#slideshow {
+    position: relative;
+    width: 100%;
+    height: 100%;
+  }
+  
+  #slideshow img {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    opacity: 0;
+    transition: opacity 1s ease-in-out;
+  }
+  
+  #slideshow img.active {
+    opacity: 1;
+  }
+  
+  .arrow-left, .arrow-right {
+    position: absolute;
+    top: 50%;
+    transform: translateY(-50%);
+    cursor: pointer;
+    z-index: 1;
+    color: white;
+    font-size: 30px;
+}
+
+.arrow-left {
+    left: 10px;
+}
+
+.arrow-right {
+    right: 10px;
+}
+
+.arrow-left:hover, .arrow-right:hover {
+    color: #ddd; /* Consistent hover effect */
+}
+
+.off-section .offer-card {
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.off-section .offer-card:hover {
+    transform: scale(1.05);  /* Slightly enlarge the card on hover */
+    box-shadow: 0 8px 20px rgba(0, 0, 0, 0.15); /* Add shadow for depth */
+}
+
+  /* Apply hover effect to cards */
+#offers .card {
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+  border-radius: 10px; /* Optional: rounded corners for the card */
+}
+
+#offers .card:hover {
+  transform: scale(1.05); /* Slightly enlarge the card */
+  box-shadow: 0 8px 20px rgba(0, 0, 0, 0.1); /* Add shadow for depth */
+}
+
+#offers .card img {
+  transition: transform 0.3s ease;
+}
+
+#offers .card:hover img {
+  transform: scale(1.05); /* Enlarge image slightly on hover */
+}
+
+/* Optionally, add a smooth transition for the button hover */
+#offers .btn:hover {
+  background-color: #005AA7;
+  color: #fff;
+  transition: background-color 0.3s ease, color 0.3s ease;
+}
+
+
+  .custom-navbar {
+    background-color: rgba(0, 0, 0, 0.3);
+    padding-top: 0.5rem; 
+    padding-bottom: 0.5rem;
+    width: 100%;
+    z-index: 999;
+  }
+  
+  .navbar-brand,
+  .nav-link {
+    color: #ffffff !important;
+    font-weight: 500;
+    font-size: 0.95rem;
+  }
+  
+  .navbar-nav .nav-link {
+    padding-left: 0.75rem;
+    padding-right: 0.75rem;
+    transition: color 0.3s ease;
+  }
+  
+  .navbar-nav .nav-link:hover {
+    color: #ffffff !important;
+    text-decoration: underline;
+  }
+  
+  .navbar-brand, .nav-link {
+    font-size: 0.95rem;
+  }
+  
+  .navbar .btn-outline-light {
+    font-size: 0.85rem;
+    padding: 0.3rem 0.75rem;
+  }
+
+  .offer-card {
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+  }
+  
+  .offer-card:hover {
+    transform: scale(1.03);
+    box-shadow: 0 8px 20px rgba(0, 0, 0, 0.12);
+  }
+  
+  
+  
+  .off-section {
+    background: linear-gradient(to right, #f8f9fa, #f8f9fa); /* vibrant gradient */
+    color: #f8f9fa;
+    background-size: cover;
+    background-position: center;
+    animation: fadeIn 2s ease-in-out;
+    position: relative;
+  }
+  
+  .off-section h2,
+  .off-section p {
+    color: #fff;
+  }
+  
+  .off-section .btn-outline-light {
+    border: 2px solid #fff;
+    transition: all 0.3s ease-in-out;
+  }
+  
+  .off-section .btn-outline-light:hover {
+    background-color: #fff;
+    color: #005AA7;
+    transform: scale(1.05);
+  }
+  
+  /* Animations */
+  @keyframes fadeIn {
+    from {
+      opacity: 0;
+      transform: translateY(40px);
+    }
+    to {
+      opacity: 1;
+      transform: translateY(0);
+    }
+  }
+  
+  .animate-fade {
+    animation: fadeIn 1.5s ease-in-out;
+  }
+  
+  .animate-zoom {
+    animation: zoomIn 1s ease-in-out;
+  }
+  
+  @keyframes zoomIn {
+    from {
+      opacity: 0;
+      transform: scale(0.9);
+    }
+    to {
+      opacity: 1;
+      transform: scale(1);
+    }
+  }
+
+   /*Footer Section*/
+   footer a:hover {
+    color: #ffc107;
+    transition: color 0.3s ease;
+  }
+  
+  footer i.bi {
+    transition: transform 0.3s ease;
+  }
+  
+  footer i.bi:hover {
+    transform: scale(1.2);
+  }
+  /*Footer Section*/
+  </style>
+</head>
+<body>
+
+  <!-- Navigation -->
+  <header>
+    <nav class="navbar navbar-expand-lg navbar-dark fixed-top custom-navbar">
+      <div class="container-fluid px-4">
+        <!-- Brand -->
+        <a class="navbar-brand fw-bold fs-4 me-5" href="#">VisitaPinas.</a>
+    
+        <!-- Toggler -->
+        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
+          <span class="navbar-toggler-icon"></span>
+        </button>
+    
+        <!-- Navbar content -->
+        <div class="collapse navbar-collapse justify-content-center" id="navbarNav">
+          <!-- Centered Nav Links -->
+          <ul class="navbar-nav gap-4">
+            <li class="nav-item">
+              <a class="nav-link fs-7" href="index.html">Home</a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link fs-7" href="Destination.html">Destinations</a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link active fs-7" href="#">Packages</a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link fs-7" href="Contact.html">Contact</a>
+            </li>
+            <li class="nav-item dropdown">
+              <a class="nav-link fs-7 dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                About Us
+              </a>
+              <ul class="dropdown-menu">
+                <li><a class="dropdown-item" href="Aboutus.html">About Us</a></li>
+                <li><a class="dropdown-item" href="Blog.html">Blog</a></li>
+                <li><a class="dropdown-item" href="Emergency.html">Emergency Help</a></li>
+                <li><a class="dropdown-item" href="itinerary-builder.html">Itinerary Builder</a></li>
+                <li><a class="dropdown-item" href="FAQ.html">FAQ</a></li>
+                <li><a class="dropdown-item" href="Feedback.html">Feedback</a></li>
+              </ul>
+            </li>
+          </ul>
+        </div>
+    
+        <!-- Login Button on Right -->
+        <a href="#" class="btn btn-outline-light d-none d-lg-flex align-items-center ms-auto">
+          <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" fill="currentColor" class="bi bi-person" viewBox="0 0 16 16">
+            <path d="M8 8a3 3 0 1 0 0-6 3 3 0 0 0 0 6z"/>
+            <path fill-rule="evenodd" d="M8 9a5 5 0 0 0-4.546 2.916C3.11 12.72 4.27 14 5.772 14h4.456c1.502 0 2.662-1.28 2.318-2.084A5 5 0 0 0 8 9z"/>
+          </svg>
+          <span class="ms-2">Login</span>
+        </a>
+
+        <!-- Favorites Icon -->
+        <a href="favorites.html" class="ms-2 text-white position-relative" title="My Favorites">
+          <i class="bi bi-heart-fill fs-5"></i>
+          <span class="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-danger favorites-count">
+            2
+          </span>
+        </a>
+      </div>
+    </nav>
+  </header>
+
+  <section id="about-hero" class="d-flex align-items-center justify-content-center text-white text-center" style="min-height: 70vh; position: relative; overflow: hidden;">
+    <!-- Slideshow container -->
+    <div id="slideshow" style="position: absolute; top: 0; left: 0; height: 100%; width: 100%; z-index: -1;">
+      <!-- Slideshow images -->
+      <img src="images/Homebg.jpg" class="slideshow-img" style="opacity: 1;">
+      <img src="images/sunset.jpg" class="slideshow-img" style="opacity: 0;">
+      <img src="images/hills.jpg" class="slideshow-img" style="opacity: 0;">
+    </div>
+  
+    <!-- Arrow navigation -->
+    <div class="arrow-left" style="position: absolute; left: 10px; top: 50%; transform: translateY(-50%); cursor: pointer; z-index: 1;">
+      <i class="bi bi-chevron-left" style="font-size: 30px; color: white;"></i>
+    </div>
+    <div class="arrow-right" style="position: absolute; right: 10px; top: 50%; transform: translateY(-50%); cursor: pointer; z-index: 1;">
+      <i class="bi bi-chevron-right" style="font-size: 30px; color: white;"></i>
+    </div>
+  
+    <!-- Centered Text -->
+    <div class="container">
+      <h1 class="display-4 fw-bold">About VisitaPinas</h1>
+      <p class="lead">Discover the beauty and culture of the Philippines through customized travel experiences with VisitaPinas.</p>
+      <p>We believe in crafting unforgettable journeys that allow you to explore the hidden gems, local culture, and scenic destinations of the Philippines. From pristine beaches to historical sites, we offer a wide range of travel packages to suit every type of adventurer.</p>
+    </div>
+  </section>
+
+
+  <section id="why-choose-us" class="py-5" style="background-color: #f9fafb;">
+    <div class="container">
+      <h2 class="fw-bold mb-4 text-center" style="color: #6c757d;">Why Choose VisitaPinas?</h2>
+      <p class="text-muted mb-5 text-center" style="font-size: 1.2rem; line-height: 1.6;">We're dedicated to creating personalized travel experiences just for you. Here's why you should book with us:</p>
+      
+      <div class="row g-4 text-center">
+        <!-- Unique Destinations -->
+        <div class="col-md-4 d-flex align-items-stretch">
+          <div class="card border-0 shadow-sm rounded-4 p-4 card-hover">
+            <i class="bi bi-geo-alt-fill fs-2 text-muted mb-3" style="transition: color 0.3s;"></i>
+            <h4 class="fw-semibold" style="color: #6c757d;">Unique Destinations</h4>
+            <p class="text-muted">From hidden beaches to mountain escapes, explore the best the Philippines has to offer.</p>
+          </div>
+        </div>
+  
+        <!-- Flexible Packages -->
+        <div class="col-md-4 d-flex align-items-stretch">
+          <div class="card border-0 shadow-sm rounded-4 p-4 card-hover">
+            <i class="bi bi-clock-fill fs-2 text-muted mb-3" style="transition: color 0.3s;"></i>
+            <h4 class="fw-semibold" style="color: #6c757d;">Flexible Packages</h4>
+            <p class="text-muted">Whether you're looking for a weekend getaway or a month-long adventure, we've got you covered.</p>
+          </div>
+        </div>
+  
+        <!-- Personalized Service -->
+        <div class="col-md-4 d-flex align-items-stretch">
+          <div class="card border-0 shadow-sm rounded-4 p-4 card-hover">
+            <i class="bi bi-person-circle fs-2 text-muted mb-3" style="transition: color 0.3s;"></i>
+            <h4 class="fw-semibold" style="color: #6c757d;">Personalized Service</h4>
+            <p class="text-muted">Our team is committed to tailoring your trip, ensuring every detail is perfect for you.</p>
+          </div>
+        </div>
+      </div>
+    </div>
+</section>
+
+  
+
+
+  <section id="offers" class="py-5" style="background-color: #f8f9fa;">
+    <div class="container">
+      <h2 class="fw-bold mb-4 text-center">Exclusive Travel Deals</h2>
+      <p class="text-muted mb-5 text-center">Discover unforgettable experiences at unbeatable prices.</p>
+  
+      <div class="row g-4">
+        <!-- Card 1 -->
+        <div class="col-md-4">
+          <div class="card border-0 h-100 rounded-4"> <!-- removed shadow-lg -->
+            <img src="images/borcay2.jpg" class="card-img-top rounded-top-4" alt="Boracay Beach Escape">
+            <div class="card-body text-start">
+              <p class="mb-2">
+                <span class="text-danger text-decoration-line-through me-2">₱9,499</span>
+                <span class="fw-bold text-success fs-5">₱6,999</span>
+              </p>
+              <h5 class="card-title fw-semibold">Boracay Beach Escape</h5>
+              <p class="text-muted small">3 days, 2 nights stay at a beachside resort + island hopping tour.</p>
+              <a href="#" class="btn btn-success rounded-pill">Book Now</a>
+            </div>
+          </div>
+        </div>
+  
+        <!-- Card 2 -->
+        <div class="col-md-4">
+          <div class="card border-0 h-100 rounded-4"> <!-- removed shadow-lg -->
+            <img src="images/baguio2.jpg" class="card-img-top rounded-top-4" alt="Baguio Mountain Retreat">
+            <div class="card-body text-start">
+              <p class="mb-2">
+                <span class="text-danger text-decoration-line-through me-2">₱7,200</span>
+                <span class="fw-bold text-success fs-5">₱5,400</span>
+              </p>
+              <h5 class="card-title fw-semibold">Baguio Mountain Retreat</h5>
+              <p class="text-muted small">2 nights with bonfire sessions, tour guide, and breakfast included.</p>
+              <a href="#" class="btn btn-success rounded-pill">Book Now</a>
+            </div>
+          </div>
+        </div>
+  
+        <!-- Card 3 -->
+        <div class="col-md-4">
+          <div class="card border-0 h-100 rounded-4"> <!-- removed shadow-lg -->
+            <img src="images/vigan1.jpg" class="card-img-top rounded-top-4" alt="Vigan Heritage Tour">
+            <div class="card-body text-start">
+              <p class="mb-2">
+                <span class="text-danger text-decoration-line-through me-2">₱3,500</span>
+                <span class="fw-bold text-success fs-5">₱2,799</span>
+              </p>
+              <h5 class="card-title fw-semibold">Vigan Heritage Tour</h5>
+              <p class="text-muted small">Day tour with carriage rides, museum visit, and Ilocano lunch.</p>
+              <a href="#" class="btn btn-success rounded-pill">Book Now</a>
+            </div>
+          </div>
+        </div>
+
+        <!-- Card 2 -->
+        <div class="col-md-4">
+          <div class="card border-0 h-100 rounded-4"> <!-- removed shadow-lg -->
+            <img src="mountain.jpg" class="card-img-top rounded-top-4" alt="Baguio Mountain Retreat">
+            <div class="card-body text-start">
+              <p class="mb-2">
+                <span class="text-danger text-decoration-line-through me-2">₱7,200</span>
+                <span class="fw-bold text-success fs-5">₱5,400</span>
+              </p>
+              <h5 class="card-title fw-semibold">Baguio Mountain Retreat</h5>
+              <p class="text-muted small">2 nights with bonfire sessions, tour guide, and breakfast included.</p>
+              <a href="#" class="btn btn-success rounded-pill">Book Now</a>
+            </div>
+          </div>
+        </div>
+
+        <!-- Card 2 -->
+        <div class="col-md-4">
+          <div class="card border-0 h-100 rounded-4"> <!-- removed shadow-lg -->
+            <img src="mountain.jpg" class="card-img-top rounded-top-4" alt="Baguio Mountain Retreat">
+            <div class="card-body text-start">
+              <p class="mb-2">
+                <span class="text-danger text-decoration-line-through me-2">₱7,200</span>
+                <span class="fw-bold text-success fs-5">₱5,400</span>
+              </p>
+              <h5 class="card-title fw-semibold">Baguio Mountain Retreat</h5>
+              <p class="text-muted small">2 nights with bonfire sessions, tour guide, and breakfast included.</p>
+              <a href="#" class="btn btn-success rounded-pill">Book Now</a>
+            </div>
+          </div>
+        </div>
+
+        <!-- Card 2 -->
+        <div class="col-md-4">
+          <div class="card border-0 h-100 rounded-4"> <!-- removed shadow-lg -->
+            <img src="mountain.jpg" class="card-img-top rounded-top-4" alt="Baguio Mountain Retreat">
+            <div class="card-body text-start">
+              <p class="mb-2">
+                <span class="text-danger text-decoration-line-through me-2">₱7,200</span>
+                <span class="fw-bold text-success fs-5">₱5,400</span>
+              </p>
+              <h5 class="card-title fw-semibold">Baguio Mountain Retreat</h5>
+              <p class="text-muted small">2 nights with bonfire sessions, tour guide, and breakfast included.</p>
+              <a href="#" class="btn btn-success rounded-pill">Book Now</a>
+            </div>
+          </div>
+        </div>
+
+      </div>
+    </div>
+  </section>
+  
+  
+  
+        
+<!-- Footer -->
+<footer class="text-white pt-5 pb-3" style="background: linear-gradient(to right, #0f2027, #203a43, #2c5364);">
+    <div class="container">
+      <div class="row text-center text-md-start">
+        <!-- Logo and About -->
+        <div class="col-md-4 mb-4">
+          <h4 class="fw-bold">VisitaPinas.</h4>
+          <p>Your ultimate travel partner in exploring the Philippines. Discover beauty, culture, and adventure with ease.</p>
+        </div>
+  
+        <!-- Navigation Links -->
+        <div class="col-md-4 mb-4">
+          <h5 class="fw-semibold">Quick Links</h5>
+          <ul class="list-unstyled">
+            <li><a href="#" class="text-white text-decoration-none">Home</a></li>
+            <li><a href="#" class="text-white text-decoration-none">Destinations</a></li>
+            <li><a href="#" class="text-white text-decoration-none">Packages</a></li>
+            <li><a href="#" class="text-white text-decoration-none">Contact</a></li>
+          </ul>
+        </div>
+  
+        <!-- Social Media & Contact -->
+        <div class="col-md-4 mb-4">
+          <h5 class="fw-semibold">Connect With Us</h5>
+          <div class="d-flex gap-3 justify-content-center justify-content-md-start">
+            <a href="#" class="text-white fs-4"><i class="bi bi-facebook"></i></a>
+            <a href="#" class="text-white fs-4"><i class="bi bi-twitter"></i></a>
+            <a href="#" class="text-white fs-4"><i class="bi bi-instagram"></i></a>
+            <a href="#" class="text-white fs-4"><i class="bi bi-envelope-fill"></i></a>
+          </div>
+          <p class="mt-3 mb-0"><i class="bi bi-geo-alt-fill me-2"></i>Philippines</p>
+          <p class="mb-0"><i class="bi bi-phone-fill me-2"></i>+63 912 345 6789</p>
+        </div>
+      </div>
+  
+      <hr class="border-light" />
+  
+      <!-- Bottom Text -->
+      <div class="text-center small">
+        &copy; 2025 VisitaPinas. All rights reserved.
+      </div>
+    </div>
+  </footer>
+  
+  
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+    <script>
+        let slideIndex = 0;
+        const slides = document.querySelectorAll("#slideshow img");
+        const totalSlides = slides.length;
+    
+        // Function to change the slide
+        function changeSlide() {
+          slides.forEach((slide, index) => {
+            slide.style.opacity = index === slideIndex ? '1' : '0';
+          });
+          slideIndex = (slideIndex + 1) % totalSlides;
+        }
+    
+        // Auto slide every 3 seconds
+        setInterval(changeSlide, 3000);
+    
+        // Arrow navigation
+        const prevArrow = document.querySelector('.arrow-left');
+        const nextArrow = document.querySelector('.arrow-right');
+    
+        prevArrow.addEventListener('click', () => {
+          slideIndex = (slideIndex - 1 + totalSlides) % totalSlides;
+          changeSlide();
+        });
+    
+        nextArrow.addEventListener('click', () => {
+          slideIndex = (slideIndex + 1) % totalSlides;
+          changeSlide();
+        });
+
+        changeSlide();
+      </script>
+    
+      
+  </body>
+  </html>
+  

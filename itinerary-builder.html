@@ -1,0 +1,570 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Itinerary Builder - VisitaPinas</title>
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.5/font/bootstrap-icons.css" rel="stylesheet">
+  <!-- Dragula CSS for drag and drop -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/dragula/3.7.3/dragula.min.css">
+  <!-- jsPDF for PDF generation -->
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+  <style>
+    .hero {
+      background-color: #f8f9fa;
+      min-height: 100vh;
+      padding-top: 100px;
+      position: relative;
+    }
+
+    .hero h1 {
+      font-size: 3rem;
+      font-weight: bold;
+      color: #fff;
+    }
+
+    .hero p {
+      font-size: 1.2rem;
+      margin-bottom: 1.5rem;
+      color: #fff;
+    }
+
+    #slideshow {
+      position: relative;
+      width: 100%;
+      height: 100%;
+    }
+
+    #slideshow img {
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      opacity: 0;
+      transition: opacity 1s ease-in-out;
+    }
+
+    #slideshow img.active {
+      opacity: 1;
+    }
+
+    .arrow-left, .arrow-right {
+      position: absolute;
+      top: 50%;
+      transform: translateY(-50%);
+      cursor: pointer;
+      z-index: 1;
+      color: white;
+      font-size: 30px;
+    }
+
+    .arrow-left {
+      left: 10px;
+    }
+
+    .arrow-right {
+      right: 10px;
+    }
+
+    .arrow-left:hover, .arrow-right:hover {
+      color: #ddd;
+    }
+
+    .custom-navbar {
+      background-color: rgba(0, 0, 0, 0.3);
+      padding-top: 0.5rem;
+      padding-bottom: 0.5rem;
+      width: 100%;
+      z-index: 999;
+    }
+
+    .navbar-brand,
+    .nav-link {
+      color: #ffffff !important;
+      font-weight: 500;
+      font-size: 0.95rem;
+    }
+
+    .navbar-nav .nav-link {
+      padding-left: 0.75rem;
+      padding-right: 0.75rem;
+      transition: color 0.3s ease;
+    }
+
+    .navbar-nav .nav-link:hover {
+      color: #ffffff !important;
+      text-decoration: underline;
+    }
+
+    .navbar .btn-outline-light {
+      font-size: 0.85rem;
+      padding: 0.3rem 0.75rem;
+    }
+
+    /* Itinerary Builder specific styles */
+    .destinations-container {
+      max-height: 65vh;
+      overflow-y: auto;
+      padding-right: 10px;
+    }
+
+    .destinations-container::-webkit-scrollbar {
+      width: 6px;
+    }
+
+    .destinations-container::-webkit-scrollbar-track {
+      background: #f1f1f1;
+      border-radius: 10px;
+    }
+
+    .destinations-container::-webkit-scrollbar-thumb {
+      background: #888;
+      border-radius: 10px;
+    }
+
+    .destinations-container::-webkit-scrollbar-thumb:hover {
+      background: #555;
+    }
+
+    .destination-card {
+      cursor: move;
+      margin-bottom: 15px;
+      transition: transform 0.2s;
+      background: #fff;
+      border: 1px solid rgba(0,0,0,0.1);
+    }
+
+    .destination-card:hover {
+      transform: translateY(-5px);
+      box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+    }
+
+    .itinerary-day {
+      min-height: 120px;
+      border: 2px dashed #dee2e6;
+      border-radius: 8px;
+      padding: 15px;
+      margin-bottom: 15px;
+      background: rgba(255,255,255,0.8);
+      transition: all 0.3s ease;
+    }
+
+    .itinerary-day:hover {
+      border-color: #6c757d;
+      background: #fff;
+    }
+
+    .section-title {
+      color: #2c3e50;
+      font-weight: 600;
+      font-size: 1.5rem;
+      margin-bottom: 1.5rem;
+    }
+
+    .section-title::after {
+      content: '';
+      position: absolute;
+      bottom: 0;
+      left: 0;
+      width: 50px;
+      height: 3px;
+      background: #007bff;
+    }
+
+    .content-section {
+      transition: all 0.3s ease;
+      min-height: 600px;
+    }
+    
+    .shadow-hover {
+      transition: all 0.3s ease;
+    }
+    
+    .shadow-hover:hover {
+      transform: translateY(-3px);
+      box-shadow: 0 4px 12px rgba(0,0,0,0.1) !important;
+    }
+
+    .section-title i {
+      color: #3498db;
+    }
+
+    .day-header {
+      border-bottom: 1px solid rgba(0,0,0,0.1);
+    }
+
+    .template-card {
+      padding: 1.25rem;
+      margin-bottom: 1.5rem;
+    }
+
+    .destination-card {
+      padding: 1rem;
+      margin-bottom: 1rem;
+    }
+
+    .card-title {
+      font-size: 1.1rem;
+      font-weight: 600;
+    }
+
+    .card-text {
+      font-size: 0.9rem;
+    }
+
+    /* Adjust the container spacing */
+    .container {
+      max-width: 1400px;
+      padding: 0 2rem;
+    }
+
+    /* Add more space between columns */
+    .row {
+      margin: 0 -1.5rem;
+    }
+
+    .col-md-4 {
+      padding: 0 1.5rem;
+    }
+  </style>
+</head>
+<body>
+
+  <!-- Navigation -->
+  <header>
+    <nav class="navbar navbar-expand-lg navbar-dark fixed-top custom-navbar">
+      <div class="container-fluid px-4">
+        <!-- Brand -->
+        <a class="navbar-brand fw-bold fs-4 me-5" href="#">VisitaPinas.</a>
+    
+        <!-- Toggler -->
+        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
+          <span class="navbar-toggler-icon"></span>
+        </button>
+    
+        <!-- Navbar content -->
+        <div class="collapse navbar-collapse justify-content-center" id="navbarNav">
+          <ul class="navbar-nav gap-4">
+            <li class="nav-item">
+              <a class="nav-link fs-7" href="index.html">Home</a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link fs-7" href="Destination.html">Destinations</a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link fs-7" href="Package.html">Packages</a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link fs-7" href="Contact.html">Contact</a>
+            </li>
+            <li class="nav-item dropdown">
+              <a class="nav-link fs-7 dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                About Us
+              </a>
+              <ul class="dropdown-menu">
+                <li><a class="dropdown-item" href="Aboutus.html">About Us</a></li>
+                <li><a class="dropdown-item" href="Blog.html">Blog</a></li>
+                <li><a class="dropdown-item" href="Emergency.html">Emergency Help</a></li>
+                <li><a class="dropdown-item active" href="itinerary-builder.html">Itinerary Builder</a></li>
+                <li><a class="dropdown-item" href="FAQ.html">FAQ</a></li>
+                <li><a class="dropdown-item" href="Feedback.html">Feedback</a></li>
+              </ul>
+            </li>
+          </ul>
+        </div>
+    
+        <!-- Login Button -->
+        <a href="#" class="btn btn-outline-light d-none d-lg-flex align-items-center ms-auto">
+          <i class="bi bi-person"></i>
+          <span class="ms-2">Login</span>
+        </a>
+
+        <!-- Favorites Icon -->
+        <a href="favorites.html" class="ms-2 text-white position-relative" title="My Favorites">
+          <i class="bi bi-heart-fill fs-5"></i>
+          <span class="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-danger favorites-count">
+            2
+          </span>
+        </a>
+      </div>
+    </nav>
+  </header>
+
+  <!-- Hero Section with Carousel -->
+  <section id="destination-hero" class="d-flex align-items-center justify-content-center text-white text-center" style="min-height: 70vh; position: relative; overflow: hidden;">
+    <!-- Slideshow container -->
+    <div id="slideshow" style="position: absolute; top: 0; left: 0; height: 100%; width: 100%; z-index: -1;">
+      <!-- Slideshow images -->
+      <img src="images/Homebg.jpg" class="slideshow-img" style="opacity: 1;">
+      <img src="images/sunset.jpg" class="slideshow-img" style="opacity: 0;">
+      <img src="images/hills.jpg" class="slideshow-img" style="opacity: 0;">
+    </div>
+  
+    <!-- Arrow navigation -->
+    <div class="arrow-left" style="position: absolute; left: 10px; top: 50%; transform: translateY(-50%); cursor: pointer; z-index: 1;">
+      <i class="bi bi-chevron-left" style="font-size: 30px; color: white;"></i>
+    </div>
+    <div class="arrow-right" style="position: absolute; right: 10px; top: 50%; transform: translateY(-50%); cursor: pointer; z-index: 1;">
+      <i class="bi bi-chevron-right" style="font-size: 30px; color: white;"></i>
+    </div>
+  
+    <!-- Centered Text -->
+    <div class="container">
+      <h1 class="display-5 fw-bold">Plan Your Perfect Trip</h1>
+      <p class="lead">Create a customized itinerary for your Philippine adventure</p>
+    </div>
+  </section>
+
+  <!-- Main Content -->
+  <div class="main-content py-5" style="background: #f8f9fa;">
+    <div class="container">
+      <!-- Action Buttons -->
+      <div class="row mb-5">
+        <div class="col-12 text-end">
+          <button class="btn btn-primary btn-lg me-3 px-4" onclick="saveItinerary()">
+            <i class="bi bi-save me-2"></i>Save Itinerary
+          </button>
+          <button class="btn btn-outline-primary btn-lg px-4" onclick="exportToPDF()">
+            <i class="bi bi-file-pdf me-2"></i>Export PDF
+          </button>
+        </div>
+      </div>
+
+      <div class="row g-4">
+        <!-- Templates Section -->
+        <div class="col-md-4">
+          <div class="content-section p-4 bg-white rounded-3 shadow-sm h-100">
+            <h3 class="section-title border-bottom pb-3 mb-4">
+              <i class="bi bi-collection me-2"></i>Templates
+            </h3>
+            <div class="template-card mb-3 rounded-3 border shadow-hover" onclick="loadTemplate('beach')" style="cursor: pointer;">
+              <div class="card-body">
+                <div class="d-flex align-items-center mb-2">
+                  <i class="bi bi-umbrella-fill text-primary me-2"></i>
+                  <h5 class="card-title mb-0">Beach Getaway</h5>
+                </div>
+                <p class="card-text text-muted small">3-day beach hopping adventure</p>
+              </div>
+            </div>
+            <div class="template-card mb-3 rounded-3 border shadow-hover" onclick="loadTemplate('cultural')">
+              <div class="card-body">
+                <div class="d-flex align-items-center mb-2">
+                  <i class="bi bi-bank2 text-primary me-2"></i>
+                  <h5 class="card-title mb-0">Cultural Experience</h5>
+                </div>
+                <p class="card-text text-muted small">4-day historical tour</p>
+              </div>
+            </div>
+            <div class="template-card rounded-3 border shadow-hover" onclick="loadTemplate('adventure')">
+              <div class="card-body">
+                <div class="d-flex align-items-center mb-2">
+                  <i class="bi bi-compass-fill text-primary me-2"></i>
+                  <h5 class="card-title mb-0">Adventure Package</h5>
+                </div>
+                <p class="card-text text-muted small">5-day thrill-seeking journey</p>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Destinations Section -->
+        <div class="col-md-4">
+          <div class="content-section p-4 bg-white rounded-3 shadow-sm h-100">
+            <h3 class="section-title border-bottom pb-3 mb-4">
+              <i class="bi bi-geo-alt-fill me-2"></i>Available Destinations
+            </h3>
+            <div id="destinations" class="destinations-container">
+              <div class="destination-card mb-3 rounded-3 border shadow-hover">
+                <div class="card-body">
+                  <div class="d-flex align-items-center mb-2">
+                    <img src="https://source.unsplash.com/50x50/?beach" class="rounded-circle me-3" alt="Boracay">
+                    <div>
+                      <h5 class="card-title mb-0">Boracay Beach</h5>
+                      <p class="card-text text-muted small mb-0">White Beach, water activities</p>
+                    </div>
+                  </div>
+                </div>
+              </div>
+              <div class="destination-card mb-3 rounded-3 border shadow-hover">
+                <div class="card-body">
+                  <div class="d-flex align-items-center mb-2">
+                    <img src="https://source.unsplash.com/50x50/?hills" class="rounded-circle me-3" alt="Chocolate Hills">
+                    <div>
+                      <h5 class="card-title mb-0">Chocolate Hills</h5>
+                      <p class="card-text text-muted small mb-0">Bohol's natural wonder</p>
+                    </div>
+                  </div>
+                </div>
+              </div>
+              <div class="destination-card mb-3 rounded-3 border shadow-hover">
+                <div class="card-body">
+                  <div class="d-flex align-items-center mb-2">
+                    <img src="https://source.unsplash.com/50x50/?fort" class="rounded-circle me-3" alt="Intramuros">
+                    <div>
+                      <h5 class="card-title mb-0">Intramuros</h5>
+                      <p class="card-text text-muted small mb-0">Historical walled city</p>
+                    </div>
+                  </div>
+                </div>
+              </div>
+              <div class="destination-card mb-3 rounded-3 border shadow-hover">
+                <div class="card-body">
+                  <div class="d-flex align-items-center mb-2">
+                    <img src="https://source.unsplash.com/50x50/?island" class="rounded-circle me-3" alt="Palawan">
+                    <div>
+                      <h5 class="card-title mb-0">Palawan Islands</h5>
+                      <p class="card-text text-muted small mb-0">Island hopping paradise</p>
+                    </div>
+                  </div>
+                </div>
+              </div>
+              <div class="destination-card mb-3 rounded-3 border shadow-hover">
+                <div class="card-body">
+                  <div class="d-flex align-items-center mb-2">
+                    <img src="https://source.unsplash.com/50x50/?heritage" class="rounded-circle me-3" alt="Vigan">
+                    <div>
+                      <h5 class="card-title mb-0">Vigan City</h5>
+                      <p class="card-text text-muted small mb-0">Heritage city tours</p>
+                    </div>
+                  </div>
+                </div>
+              </div>
+              <div class="destination-card rounded-3 border shadow-hover">
+                <div class="card-body">
+                  <div class="d-flex align-items-center mb-2">
+                    <img src="https://source.unsplash.com/50x50/?volcano" class="rounded-circle me-3" alt="Mayon">
+                    <div>
+                      <h5 class="card-title mb-0">Mayon Volcano</h5>
+                      <p class="card-text text-muted small mb-0">Perfect cone volcano</p>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Itinerary Builder Section -->
+        <div class="col-md-4">
+          <div class="content-section p-4 bg-white rounded-3 shadow-sm h-100">
+            <h3 class="section-title border-bottom pb-3 mb-4">
+              <i class="bi bi-calendar3 me-2"></i>Your Itinerary
+            </h3>
+            <div id="itinerary-container">
+              <div class="itinerary-day mb-3 rounded-3 bg-light">
+                <div class="day-header bg-primary text-white p-2 rounded-top">
+                  <h5 class="mb-0"><i class="bi bi-sun me-2"></i>Day 1</h5>
+                </div>
+                <div class="p-3">
+                  <p class="text-muted small mb-0">Drag destinations here</p>
+                </div>
+              </div>
+              <div class="itinerary-day mb-3 rounded-3 bg-light">
+                <div class="day-header bg-primary text-white p-2 rounded-top">
+                  <h5 class="mb-0"><i class="bi bi-sun me-2"></i>Day 2</h5>
+                </div>
+                <div class="p-3">
+                  <p class="text-muted small mb-0">Drag destinations here</p>
+                </div>
+              </div>
+              <div class="itinerary-day mb-3 rounded-3 bg-light">
+                <div class="day-header bg-primary text-white p-2 rounded-top">
+                  <h5 class="mb-0"><i class="bi bi-sun me-2"></i>Day 3</h5>
+                </div>
+                <div class="p-3">
+                  <p class="text-muted small mb-0">Drag destinations here</p>
+                </div>
+              </div>
+              <button class="btn btn-outline-primary w-100" onclick="addDay()">
+                <i class="bi bi-plus-circle me-2"></i>Add Day
+              </button>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Footer -->
+  <footer class="text-white pt-5 pb-3" style="background: linear-gradient(to right, #0f2027, #203a43, #2c5364);">
+    <div class="container">
+      <div class="row text-center text-md-start">
+        <!-- Logo and About -->
+        <div class="col-md-4 mb-4">
+          <h4 class="fw-bold">VisitaPinas.</h4>
+          <p>Your ultimate travel partner in exploring the Philippines. Discover beauty, culture, and adventure with ease.</p>
+        </div>
+  
+        <!-- Navigation Links -->
+        <div class="col-md-4 mb-4">
+          <h5 class="fw-semibold">Quick Links</h5>
+          <ul class="list-unstyled">
+            <li><a href="#" class="text-white text-decoration-none">Home</a></li>
+            <li><a href="#" class="text-white text-decoration-none">Destinations</a></li>
+            <li><a href="#" class="text-white text-decoration-none">Packages</a></li>
+            <li><a href="#" class="text-white text-decoration-none">Contact</a></li>
+          </ul>
+        </div>
+  
+        <!-- Social Media & Contact -->
+        <div class="col-md-4 mb-4">
+          <h5 class="fw-semibold">Connect With Us</h5>
+          <div class="d-flex gap-3 justify-content-center justify-content-md-start">
+            <a href="#" class="text-white fs-4"><i class="bi bi-facebook"></i></a>
+            <a href="#" class="text-white fs-4"><i class="bi bi-twitter"></i></a>
+            <a href="#" class="text-white fs-4"><i class="bi bi-instagram"></i></a>
+            <a href="#" class="text-white fs-4"><i class="bi bi-envelope-fill"></i></a>
+          </div>
+          <p class="mt-3 mb-0"><i class="bi bi-geo-alt-fill me-2"></i>Philippines</p>
+          <p class="mb-0"><i class="bi bi-phone-fill me-2"></i>+63 912 345 6789</p>
+        </div>
+      </div>
+  
+      <hr class="border-light" />
+  
+      <!-- Bottom Text -->
+      <div class="text-center small">
+        &copy; 2025 VisitaPinas. All rights reserved.
+      </div>
+    </div>
+  </footer>
+
+  <!-- Bootstrap JS and other scripts -->
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/dragula/3.7.3/dragula.min.js"></script>
+  
+  <script>
+    document.addEventListener('DOMContentLoaded', function() {
+      // Slideshow functionality
+      const images = document.querySelectorAll('.slideshow-img');
+      let currentImageIndex = 0;
+      const totalImages = images.length;
+
+      function showNextImage() {
+        images[currentImageIndex].style.opacity = '0';
+        currentImageIndex = (currentImageIndex + 1) % totalImages;
+        images[currentImageIndex].style.opacity = '1';
+      }
+
+      function showPreviousImage() {
+        images[currentImageIndex].style.opacity = '0';
+        currentImageIndex = (currentImageIndex - 1 + totalImages) % totalImages;
+        images[currentImageIndex].style.opacity = '1';
+      }
+
+      // Set up click handlers for arrows
+      document.querySelector('.arrow-left').addEventListener('click', showPreviousImage);
+      document.querySelector('.arrow-right').addEventListener('click', showNextImage);
+
+      // Auto-advance slideshow every 5 seconds
+      setInterval(showNextImage, 5000);
+
+      // Existing itinerary builder functionality
+      // ... existing code ...
+    });
+  </script>
+</body>
+</html> 

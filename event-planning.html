@@ -1,0 +1,415 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Event Planning - VisitaPinas</title>
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.5/font/bootstrap-icons.css" rel="stylesheet">
+  <link rel="stylesheet" href="Home.css">
+  <style>
+    .event-card {
+      border: none;
+      border-radius: 15px;
+      overflow: hidden;
+      transition: transform 0.3s ease;
+      box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+    }
+
+    .event-card:hover {
+      transform: translateY(-5px);
+    }
+
+    .event-icon {
+      width: 60px;
+      height: 60px;
+      background: #7b7e81;
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: white;
+      margin-bottom: 1rem;
+    }
+
+    .process-step {
+      text-align: center;
+      position: relative;
+      padding: 2rem 1rem;
+    }
+
+    .process-step::after {
+      content: '';
+      position: absolute;
+      top: 50%;
+      right: -50%;
+      width: 100%;
+      height: 2px;
+      background: #dee2e6;
+      transform: translateY(-50%);
+    }
+
+    .process-step:last-child::after {
+      display: none;
+    }
+
+    .step-number {
+      width: 40px;
+      height: 40px;
+      background: #7b7e81;
+      color: white;
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      margin: 0 auto 1rem;
+      font-weight: bold;
+    }
+
+    .testimonial-card {
+      border: none;
+      border-radius: 15px;
+      overflow: hidden;
+      background: #fff;
+    }
+
+    .event-gallery {
+      position: relative;
+      overflow: hidden;
+      border-radius: 15px;
+    }
+
+    .event-gallery img {
+      transition: transform 0.3s ease;
+    }
+
+    .event-gallery:hover img {
+      transform: scale(1.05);
+    }
+
+    .event-overlay {
+      position: absolute;
+      bottom: 0;
+      left: 0;
+      right: 0;
+      padding: 20px;
+      background: linear-gradient(to top, rgba(0,0,0,0.8), transparent);
+      color: white;
+    }
+
+    .btn-primary {
+      background: #0d6efd;
+      border-color: #0d6efd;
+    }
+
+    .btn-primary:hover {
+      background: #0b5ed7;
+      border-color: #0b5ed7;
+    }
+
+    .contact-form {
+      background: #fff;
+      padding: 2rem;
+      border-radius: 15px;
+      box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+    }
+  </style>
+</head>
+<body>
+
+  <!-- Navigation -->
+  <header>
+    <nav class="navbar navbar-expand-lg navbar-dark fixed-top custom-navbar">
+      <div class="container-fluid px-4">
+        <!-- Brand -->
+        <a class="navbar-brand fw-bold fs-4 me-5" href="#">VisitaPinas.</a>
+    
+        <!-- Toggler -->
+        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
+          <span class="navbar-toggler-icon"></span>
+        </button>
+    
+        <!-- Navbar content -->
+        <div class="collapse navbar-collapse justify-content-center" id="navbarNav">
+          <!-- Centered Nav Links -->
+          <ul class="navbar-nav gap-4">
+            <li class="nav-item">
+              <a class="nav-link fs-7" href="index.html">Home</a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link fs-7" href="Destination.html">Destinations</a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link fs-7" href="Package.html">Packages</a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link fs-7" href="Contact.html">Contact</a>
+            </li>
+            <li class="nav-item dropdown">
+              <a class="nav-link fs-7 dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                About Us
+              </a>
+              <ul class="dropdown-menu">
+                <li><a class="dropdown-item" href="Aboutus.html">About Us</a></li>
+                <li><a class="dropdown-item" href="Blog.html">Blog</a></li>
+                <li><a class="dropdown-item" href="Emergency.html">Emergency Help</a></li>
+                <li><a class="dropdown-item" href="itinerary-builder.html">Itinerary Builder</a></li>
+              </ul>
+            </li>
+          </ul>
+        </div>
+    
+        <!-- Login Button on Right -->
+        <a href="#" class="btn btn-outline-light d-none d-lg-flex align-items-center ms-auto">
+          <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" fill="currentColor" class="bi bi-person" viewBox="0 0 16 16">
+            <path d="M8 8a3 3 0 1 0 0-6 3 3 0 0 0 0 6z"/>
+            <path fill-rule="evenodd" d="M8 9a5 5 0 0 0-4.546 2.916C3.11 12.72 4.27 14 5.772 14h4.456c1.502 0 2.662-1.28 2.318-2.084A5 5 0 0 0 8 9z"/>
+          </svg>
+          <span class="ms-2">Login</span>
+        </a>
+      </div>
+    </nav>
+  </header>
+
+  <!-- Hero Section -->
+  <section class="hero d-flex align-items-center text-white" style="min-height: 60vh; background: url('Homebg.jpg') no-repeat center center; background-size: cover; padding-top: 100px;">
+    <div class="container">
+      <div class="row">
+        <div class="col-lg-8 text-center text-lg-start">
+          <h1 class="display-4 fw-bold">Event Planning Services</h1>
+          <p class="lead">Create unforgettable moments in the Philippines with our expert event planning team</p>
+          <a href="#contact-form" class="btn btn-primary btn-lg">Start Planning</a>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Services Section -->
+  <section class="py-5">
+    <div class="container">
+      <h2 class="text-center mb-5">Our Event Services</h2>
+      <div class="row g-4">
+        <!-- Corporate Events -->
+        <div class="col-md-4">
+          <div class="event-card h-100">
+            <div class="card-body text-center p-4">
+              <div class="event-icon mx-auto">
+                <i class="bi bi-briefcase-fill fs-3"></i>
+              </div>
+              <h4>Corporate Events</h4>
+              <p>Team building, conferences, and business meetings in stunning locations</p>
+              <ul class="list-unstyled text-start">
+                <li><i class="bi bi-check2 text-success me-2"></i>Professional venues</li>
+                <li><i class="bi bi-check2 text-success me-2"></i>Team activities</li>
+                <li><i class="bi bi-check2 text-success me-2"></i>Technical support</li>
+              </ul>
+            </div>
+          </div>
+        </div>
+
+        <!-- Weddings -->
+        <div class="col-md-4">
+          <div class="event-card h-100">
+            <div class="card-body text-center p-4">
+              <div class="event-icon mx-auto">
+                <i class="bi bi-heart-fill fs-3"></i>
+              </div>
+              <h4>Destination Weddings</h4>
+              <p>Beautiful ceremonies in the most romantic locations across the Philippines</p>
+              <ul class="list-unstyled text-start">
+                <li><i class="bi bi-check2 text-success me-2"></i>Beach ceremonies</li>
+                <li><i class="bi bi-check2 text-success me-2"></i>Full coordination</li>
+                <li><i class="bi bi-check2 text-success me-2"></i>Local vendors</li>
+              </ul>
+            </div>
+          </div>
+        </div>
+
+        <!-- Special Events -->
+        <div class="col-md-4">
+          <div class="event-card h-100">
+            <div class="card-body text-center p-4">
+              <div class="event-icon mx-auto">
+                <i class="bi bi-calendar-event-fill fs-3"></i>
+              </div>
+              <h4>Special Celebrations</h4>
+              <p>Birthdays, anniversaries, and special occasions worth remembering</p>
+              <ul class="list-unstyled text-start">
+                <li><i class="bi bi-check2 text-success me-2"></i>Custom themes</li>
+                <li><i class="bi bi-check2 text-success me-2"></i>Entertainment</li>
+                <li><i class="bi bi-check2 text-success me-2"></i>Catering</li>
+              </ul>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Planning Process -->
+  <section class="py-5 bg-light">
+    <div class="container">
+      <h2 class="text-center mb-5">Our Planning Process</h2>
+      <div class="row">
+        <div class="col-md-3">
+          <div class="process-step">
+            <div class="step-number">1</div>
+            <h5>Consultation</h5>
+            <p>Initial meeting to discuss your vision and requirements</p>
+          </div>
+        </div>
+        <div class="col-md-3">
+          <div class="process-step">
+            <div class="step-number">2</div>
+            <h5>Proposal</h5>
+            <p>Detailed plan and budget presentation</p>
+          </div>
+        </div>
+        <div class="col-md-3">
+          <div class="process-step">
+            <div class="step-number">3</div>
+            <h5>Planning</h5>
+            <p>Coordination with vendors and logistics</p>
+          </div>
+        </div>
+        <div class="col-md-3">
+          <div class="process-step">
+            <div class="step-number">4</div>
+            <h5>Execution</h5>
+            <p>Flawless event management and coordination</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Event Gallery -->
+  <section class="py-5">
+    <div class="container">
+      <h2 class="text-center mb-5">Past Events Gallery</h2>
+      <div class="row g-4">
+        <div class="col-md-4">
+          <div class="event-gallery">
+            <img src="Homebg.jpg" alt="Corporate Event" class="img-fluid">
+            <div class="event-overlay">
+              <h5>Corporate Retreat</h5>
+              <p class="mb-0">Boracay Island</p>
+            </div>
+          </div>
+        </div>
+        <div class="col-md-4">
+          <div class="event-gallery">
+            <img src="Homebg.jpg" alt="Beach Wedding" class="img-fluid">
+            <div class="event-overlay">
+              <h5>Beach Wedding</h5>
+              <p class="mb-0">El Nido, Palawan</p>
+            </div>
+          </div>
+        </div>
+        <div class="col-md-4">
+          <div class="event-gallery">
+            <img src="Homebg.jpg" alt="Birthday Party" class="img-fluid">
+            <div class="event-overlay">
+              <h5>Birthday Celebration</h5>
+              <p class="mb-0">Cebu City</p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Contact Form -->
+  <section id="contact-form" class="py-5 bg-light">
+    <div class="container">
+      <div class="row justify-content-center">
+        <div class="col-md-8">
+          <div class="contact-form">
+            <h2 class="text-center mb-4">Start Planning Your Event</h2>
+            <form>
+              <div class="row g-3">
+                <div class="col-md-6">
+                  <label for="name" class="form-label">Your Name</label>
+                  <input type="text" class="form-control" id="name" required>
+                </div>
+                <div class="col-md-6">
+                  <label for="email" class="form-label">Email Address</label>
+                  <input type="email" class="form-control" id="email" required>
+                </div>
+                <div class="col-md-6">
+                  <label for="phone" class="form-label">Phone Number</label>
+                  <input type="tel" class="form-control" id="phone">
+                </div>
+                <div class="col-md-6">
+                  <label for="eventType" class="form-label">Event Type</label>
+                  <select class="form-select" id="eventType" required>
+                    <option value="">Choose...</option>
+                    <option>Corporate Event</option>
+                    <option>Wedding</option>
+                    <option>Birthday Party</option>
+                    <option>Anniversary</option>
+                    <option>Other</option>
+                  </select>
+                </div>
+                <div class="col-12">
+                  <label for="message" class="form-label">Event Details</label>
+                  <textarea class="form-control" id="message" rows="4" required></textarea>
+                </div>
+                <div class="col-12 text-center">
+                  <button type="submit" class="btn btn-primary btn-lg">Submit Request</button>
+                </div>
+              </div>
+            </form>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Footer -->
+  <footer class="text-white pt-5 pb-3" style="background: linear-gradient(to right, #343a40, #495057);">
+    <div class="container">
+      <div class="row text-center text-md-start">
+        <!-- Logo and About -->
+        <div class="col-md-4 mb-4">
+          <h4 class="fw-bold">VisitaPinas.</h4>
+          <p>Your ultimate travel partner in exploring the Philippines. Discover beauty, culture, and adventure with ease.</p>
+        </div>
+
+        <!-- Navigation Links -->
+        <div class="col-md-4 mb-4">
+          <h5 class="fw-semibold">Quick Links</h5>
+          <ul class="list-unstyled">
+            <li><a href="#" class="text-white text-decoration-none">Home</a></li>
+            <li><a href="#" class="text-white text-decoration-none">Destinations</a></li>
+            <li><a href="#" class="text-white text-decoration-none">Packages</a></li>
+            <li><a href="#" class="text-white text-decoration-none">Contact</a></li>
+          </ul>
+        </div>
+
+        <!-- Social Media & Contact -->
+        <div class="col-md-4 mb-4">
+          <h5 class="fw-semibold">Connect With Us</h5>
+          <div class="d-flex gap-3 justify-content-center justify-content-md-start">
+            <a href="#" class="text-white fs-4"><i class="bi bi-facebook"></i></a>
+            <a href="#" class="text-white fs-4"><i class="bi bi-twitter"></i></a>
+            <a href="#" class="text-white fs-4"><i class="bi bi-instagram"></i></a>
+            <a href="#" class="text-white fs-4"><i class="bi bi-envelope-fill"></i></a>
+          </div>
+          <p class="mt-3 mb-0"><i class="bi bi-geo-alt-fill me-2"></i>Philippines</p>
+          <p class="mb-0"><i class="bi bi-phone-fill me-2"></i>+63 912 345 6789</p>
+        </div>
+      </div>
+
+      <hr class="border-light" />
+
+      <!-- Bottom Text -->
+      <div class="text-center small">
+        &copy; 2025 VisitaPinas. All rights reserved.
+      </div>
+    </div>
+  </footer>
+
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+</body>
+</html> 

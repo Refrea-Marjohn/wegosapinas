@@ -1,0 +1,426 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Travel and Hospitality</title>
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+  <!-- Bootstrap Icons CDN -->
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.5/font/bootstrap-icons.css" rel="stylesheet">
+  <!-- <link rel="stylesheet" href="Destination.css"> -->
+   <style>
+    .hero {
+    background-color: #f8f9fa;
+    min-height: 100vh;
+    padding-top: 100px;
+    position: relative;
+  }
+  
+
+.hero h1 {
+    font-size: 3rem;
+    font-weight: bold;
+    color: #fff;
+}
+
+.hero p {
+    font-size: 1.2rem;
+    margin-bottom: 1.5rem;
+    color: #fff;
+}
+
+#slideshow {
+    position: relative;
+    width: 100%;
+    height: 100%;
+  }
+  
+  #slideshow img {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    opacity: 0;
+    transition: opacity 1s ease-in-out;
+  }
+  
+  #slideshow img.active {
+    opacity: 1;
+  }
+  
+  .arrow-left, .arrow-right {
+    position: absolute;
+    top: 50%;
+    transform: translateY(-50%);
+    cursor: pointer;
+    z-index: 1;
+    color: white;
+    font-size: 30px;
+  }
+  
+  .arrow-left {
+    left: 10px;
+  }
+  
+  .arrow-right {
+    right: 10px;
+  }
+  
+  .arrow-left:hover, .arrow-right:hover {
+    color: #f0f0f0;
+  }
+  
+  .arrow-left:hover, .arrow-right:hover {
+    color: #ddd;
+  }
+  
+  .custom-navbar {
+    background-color: rgba(0, 0, 0, 0.3);
+    padding-top: 0.5rem; 
+    padding-bottom: 0.5rem;
+    width: 100%;
+    z-index: 999;
+  }
+  
+  .navbar-brand,
+  .nav-link {
+    color: #ffffff !important;
+    font-weight: 500;
+    font-size: 0.95rem;
+  }
+  
+  .navbar-nav .nav-link {
+    padding-left: 0.75rem;
+    padding-right: 0.75rem;
+    transition: color 0.3s ease;
+  }
+  
+  .navbar-nav .nav-link:hover {
+    color: #ffffff !important;
+    text-decoration: underline;
+  }
+  
+  .navbar-brand, .nav-link {
+    font-size: 0.95rem;
+  }
+  
+  .navbar .btn-outline-light {
+    font-size: 0.85rem;
+    padding: 0.3rem 0.75rem;
+  }
+
+
+  input.form-control, textarea.form-control {
+    border-radius: 10px;
+    border: 1px solid #dee2e6;
+    transition: all 0.3s ease;
+  }
+  input.form-control:focus, textarea.form-control:focus {
+    border-color: #0d6efd;
+    box-shadow: 0 0 0 0.2rem rgba(13,110,253,0.25);
+  }
+
+  #contact .card:hover {
+    transform: translateY(-5px);
+    transition: 0.3s ease;
+  }
+  
+  #contact input,
+  #contact textarea {
+    border-radius: 12px;
+    border: 1px solid #ced4da;
+  }
+
+  .contact-card {
+  background: linear-gradient(145deg, #e6ecf3, #ffffff);
+  transition: all 0.3s ease-in-out;
+}
+
+.contact-card:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 10px 20px rgba(0, 0, 0, 0.08);
+}
+
+.icon-style {
+  color: #0d6efd;
+  background-color: #e9f1ff;
+  padding: 12px;
+  border-radius: 50%;
+}
+    
+  
+  /*Footer Section*/
+  footer a:hover {
+    color: #ffc107;
+    transition: color 0.3s ease;
+  }
+  
+  footer i.bi {
+    transition: transform 0.3s ease;
+  }
+  
+  footer i.bi:hover {
+    transform: scale(1.2);
+  }
+  /*Footer Section*/
+  
+   </style>
+</head>
+<body>
+
+  <!-- Navigation -->
+  <header>
+    <nav class="navbar navbar-expand-lg navbar-dark fixed-top custom-navbar">
+      <div class="container-fluid px-4">
+        <!-- Brand -->
+        <a class="navbar-brand fw-bold fs-4 me-5" href="#">VisitaPinas.</a>
+    
+        <!-- Toggler -->
+        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
+          <span class="navbar-toggler-icon"></span>
+        </button>
+    
+        <!-- Navbar content -->
+        <div class="collapse navbar-collapse justify-content-center" id="navbarNav">
+          <!-- Centered Nav Links -->
+          <ul class="navbar-nav gap-4">
+            <li class="nav-item">
+              <a class="nav-link fs-7" href="index.html">Home</a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link fs-7" href="Destination.html">Destinations</a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link fs-7" href="Package.html">Packages</a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link active fs-7" href="#">Contact</a>
+            </li>
+            <li class="nav-item dropdown">
+              <a class="nav-link fs-7 dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                About Us
+              </a>
+              <ul class="dropdown-menu">
+                <li><a class="dropdown-item" href="Aboutus.html">About Us</a></li>
+                <li><a class="dropdown-item" href="Blog.html">Blog</a></li>
+                <li><a class="dropdown-item" href="Emergency.html">Emergency Help</a></li>
+                <li><a class="dropdown-item" href="itinerary-builder.html">Itinerary Builder</a></li>
+                <li><a class="dropdown-item" href="FAQ.html">FAQ</a></li>
+                <li><a class="dropdown-item" href="Feedback.html">Feedback</a></li>
+              </ul>
+            </li>
+          </ul>
+        </div>
+    
+        <!-- Login Button on Right -->
+        <a href="#" class="btn btn-outline-light d-none d-lg-flex align-items-center ms-auto">
+          <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" fill="currentColor" class="bi bi-person" viewBox="0 0 16 16">
+            <path d="M8 8a3 3 0 1 0 0-6 3 3 0 0 0 0 6z"/>
+            <path fill-rule="evenodd" d="M8 9a5 5 0 0 0-4.546 2.916C3.11 12.72 4.27 14 5.772 14h4.456c1.502 0 2.662-1.28 2.318-2.084A5 5 0 0 0 8 9z"/>
+          </svg>
+          <span class="ms-2">Login</span>
+        </a>
+
+        <!-- Favorites Icon -->
+        <a href="favorites.html" class="ms-2 text-white position-relative" title="My Favorites">
+          <i class="bi bi-heart-fill fs-5"></i>
+          <span class="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-danger favorites-count">
+            2
+          </span>
+        </a>
+      </div>
+    </nav>
+  </header>
+
+  <section id="destination-hero" class="d-flex align-items-center justify-content-center text-white text-center" style="min-height: 70vh; position: relative; overflow: hidden;">
+    <!-- Slideshow container -->
+    <div id="slideshow" style="position: absolute; top: 0; left: 0; height: 100%; width: 100%; z-index: -1;">
+      <!-- Slideshow images -->
+      <img src="images/Homebg.jpg" class="slideshow-img" style="opacity: 1;">
+      <img src="images/sunset.jpg" class="slideshow-img" style="opacity: 0;">
+      <img src="images/hills.jpg" class="slideshow-img" style="opacity: 0;">
+    </div>
+  
+    <!-- Arrow navigation -->
+    <div class="arrow-left" style="position: absolute; left: 10px; top: 50%; transform: translateY(-50%); cursor: pointer; z-index: 1;">
+        <i class="bi bi-chevron-left" style="font-size: 30px; color: white;"></i>
+    </div>
+    <div class="arrow-right" style="position: absolute; right: 10px; top: 50%; transform: translateY(-50%); cursor: pointer; z-index: 1;">
+        <i class="bi bi-chevron-right" style="font-size: 30px; color: white;"></i>
+    </div>
+  
+  
+    <!-- Centered Text -->
+    <div class="container">
+      <h1 class="display-5 fw-bold">Contact Us</h1>
+            <p class="lead">We'd love to hear from you! Reach out to us for any inquiries or feedback.</p>
+    </div>
+  </section>
+
+
+  <section id="contact" class="py-5" style="background: #f5f7fa;">
+    <div class="container">
+      <!-- Title -->
+      <div class="text-center mb-5">
+        <h2 class="fw-bold">Contact Us</h2>
+        <p class="text-muted">We're here to help and answer any question you might have.</p>
+      </div>
+  
+      <!-- Contact Cards -->
+      <div class="row text-center mb-4">
+        <!-- Phone -->
+        <div class="col-md-4 mb-3">
+          <div class="card h-100 border-0 shadow rounded-4 py-4 contact-card">
+            <div class="card-body">
+              <i class="bi bi-telephone-fill fs-2 mb-3 icon-style"></i>
+              <h5 class="fw-semibold">Phone</h5>
+              <p class="text-muted">+63 912 345 6789</p>
+            </div>
+          </div>
+        </div>
+        <!-- Email -->
+        <div class="col-md-4 mb-3">
+          <div class="card h-100 border-0 shadow rounded-4 py-4 contact-card">
+            <div class="card-body">
+              <i class="bi bi-envelope-fill fs-2 mb-3 icon-style"></i>
+              <h5 class="fw-semibold">Email</h5>
+              <p class="text-muted">contact@cabuyaotour.ph</p>
+            </div>
+          </div>
+        </div>
+        <!-- Location -->
+        <div class="col-md-4 mb-3">
+          <div class="card h-100 border-0 shadow rounded-4 py-4 contact-card">
+            <div class="card-body">
+              <i class="bi bi-geo-alt-fill fs-2 mb-3 icon-style"></i>
+              <h5 class="fw-semibold">Location</h5>
+              <p class="text-muted">Cabuyao City, Laguna, Philippines</p>
+            </div>
+          </div>
+        </div>
+      </div>
+  
+      <!-- Form and Map -->
+      <div class="row align-items-stretch">
+        <!-- Contact Form -->
+        <div class="col-md-6 mb-4">
+          <div class="p-4 bg-white shadow rounded-4 h-100">
+            <h4 class="fw-bold mb-4">Send us a message</h4>
+            <form>
+              <div class="mb-3">
+                <label class="form-label fw-semibold">Name</label>
+                <input type="text" class="form-control" placeholder="Your name">
+              </div>
+              <div class="mb-3">
+                <label class="form-label fw-semibold">Email</label>
+                <input type="email" class="form-control" placeholder="Your email">
+              </div>
+              <div class="mb-3">
+                <label class="form-label fw-semibold">Message</label>
+                <textarea class="form-control" rows="5" placeholder="Your message"></textarea>
+              </div>
+              <button type="submit" class="btn btn-primary w-100 fw-semibold rounded-3">Send</button>
+            </form>
+          </div>
+        </div>
+  
+        <!-- Map -->
+        <div class="col-md-6 mb-4">
+          <div class="p-3 bg-white shadow rounded-4 h-100">
+            <h4 class="fw-bold mb-4">Our Location</h4>
+            <iframe 
+              src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3858.990725700806!2d121.05614031483674!3d14.576376981370926!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x3397c840b225ef2f%3A0xb6d2c8a10ebfc8cb!2sManila%2C%20Metro%20Manila!5e0!3m2!1sen!2sph!4v1685874983953!5m2!1sen!2sph"
+              width="100%" height="370" style="border:0; border-radius: 12px;" allowfullscreen="" loading="lazy">
+            </iframe>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+  
+    
+<!-- Footer -->
+<footer class="text-white pt-5 pb-3" style="background: linear-gradient(to right, #0f2027, #203a43, #2c5364);">
+    <div class="container">
+      <div class="row text-center text-md-start">
+        <!-- Logo and About -->
+        <div class="col-md-4 mb-4">
+          <h4 class="fw-bold">VisitaPinas.</h4>
+          <p>Your ultimate travel partner in exploring the Philippines. Discover beauty, culture, and adventure with ease.</p>
+        </div>
+  
+        <!-- Navigation Links -->
+        <div class="col-md-4 mb-4">
+          <h5 class="fw-semibold">Quick Links</h5>
+          <ul class="list-unstyled">
+            <li><a href="#" class="text-white text-decoration-none">Home</a></li>
+            <li><a href="#" class="text-white text-decoration-none">Destinations</a></li>
+            <li><a href="#" class="text-white text-decoration-none">Packages</a></li>
+            <li><a href="#" class="text-white text-decoration-none">Contact</a></li>
+          </ul>
+        </div>
+  
+        <!-- Social Media & Contact -->
+        <div class="col-md-4 mb-4">
+          <h5 class="fw-semibold">Connect With Us</h5>
+          <div class="d-flex gap-3 justify-content-center justify-content-md-start">
+            <a href="#" class="text-white fs-4"><i class="bi bi-facebook"></i></a>
+            <a href="#" class="text-white fs-4"><i class="bi bi-twitter"></i></a>
+            <a href="#" class="text-white fs-4"><i class="bi bi-instagram"></i></a>
+            <a href="#" class="text-white fs-4"><i class="bi bi-envelope-fill"></i></a>
+          </div>
+          <p class="mt-3 mb-0"><i class="bi bi-geo-alt-fill me-2"></i>Philippines</p>
+          <p class="mb-0"><i class="bi bi-phone-fill me-2"></i>+63 912 345 6789</p>
+        </div>
+      </div>
+  
+      <hr class="border-light" />
+  
+      <!-- Bottom Text -->
+      <div class="text-center small">
+        &copy; 2025 VisitaPinas. All rights reserved.
+      </div>
+    </div>
+  </footer>
+  
+  
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+    <script>
+        let slideIndex = 0;
+        const slides = document.querySelectorAll("#slideshow img");
+        const totalSlides = slides.length;
+    
+        // Function to change the slide
+        function changeSlide() {
+          slides.forEach((slide, index) => {
+            slide.style.opacity = index === slideIndex ? '1' : '0';
+          });
+          slideIndex = (slideIndex + 1) % totalSlides;
+        }
+    
+        // Auto slide every 3 seconds
+        setInterval(changeSlide, 3000);
+    
+        // Arrow navigation
+        const prevArrow = document.querySelector('.arrow-left');
+        const nextArrow = document.querySelector('.arrow-right');
+    
+        prevArrow.addEventListener('click', () => {
+          slideIndex = (slideIndex - 1 + totalSlides) % totalSlides;
+          changeSlide();
+        });
+    
+        nextArrow.addEventListener('click', () => {
+          slideIndex = (slideIndex + 1) % totalSlides;
+          changeSlide();
+        });
+
+        changeSlide();
+      </script>
+    
+      
+  </body>
+  </html>
+  

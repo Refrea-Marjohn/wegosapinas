@@ -1,0 +1,892 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Gallery - VisitaPinas</title>
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.5/font/bootstrap-icons.css" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/lightbox2/2.11.3/css/lightbox.min.css">
+  <link rel="stylesheet" href="https://unpkg.com/masonry-layout@4/dist/masonry.pkgd.min.js">
+  <link rel="stylesheet" href="Home.css">
+  <style>
+    .gallery-filters {
+      margin-bottom: 2rem;
+    }
+
+    .filter-btn {
+      border: none;
+      background: none;
+      color: #6c757d;
+      padding: 0.5rem 1rem;
+      margin: 0.25rem;
+      border-radius: 25px;
+      transition: all 0.3s ease;
+    }
+
+    .filter-btn:hover,
+    .filter-btn.active {
+      background: #7b7e81;
+      color: white;
+    }
+
+    .gallery-item {
+      height: 350px; /* Fixed height instead of percentage */
+      width: 100%;
+      position: relative;
+      overflow: hidden;
+      border-radius: 15px;
+      background: #fff;
+      box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+      transition: transform 0.3s ease, box-shadow 0.3s ease;
+      margin: 0;
+    }
+
+    .gallery-item:hover {
+      transform: translateY(-5px);
+      box-shadow: 0 8px 16px rgba(0,0,0,0.2);
+    }
+
+    .gallery-item a {
+      display: block;
+      height: 100%;
+      width: 100%;
+      text-decoration: none;
+      color: inherit;
+    }
+
+    .gallery-item img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      transition: transform 0.3s ease;
+    }
+
+    .gallery-item:hover img {
+      transform: scale(1.05);
+    }
+
+    .gallery-overlay {
+      position: absolute;
+      bottom: 0;
+      left: 0;
+      right: 0;
+      padding: 20px;
+      background: linear-gradient(to top, 
+        rgba(0,0,0,0.95) 0%,
+        rgba(0,0,0,0.8) 30%,
+        rgba(0,0,0,0.4) 60%,
+        rgba(0,0,0,0) 100%);
+      color: white;
+      opacity: 0;
+      transition: opacity 0.3s ease;
+      display: flex;
+      flex-direction: column;
+      justify-content: flex-end;
+      min-height: 40%;
+    }
+
+    .gallery-item:hover .gallery-overlay {
+      opacity: 1;
+    }
+
+    .gallery-category {
+      position: absolute;
+      top: 20px;
+      right: 20px;
+      background: rgba(0,0,0,0.7);
+      color: white;
+      padding: 8px 16px;
+      border-radius: 20px;
+      font-size: 0.8rem;
+      z-index: 1;
+      backdrop-filter: blur(4px);
+    }
+
+    .section-title {
+      position: relative;
+      display: inline-block;
+      margin-bottom: 3rem;
+    }
+
+    .section-title::after {
+      content: '';
+      position: absolute;
+      bottom: -10px;
+      left: 0;
+      width: 60px;
+      height: 3px;
+      background: #7b7e81;
+    }
+
+    .btn-primary {
+      background: #0d6efd;
+      border-color: #0d6efd;
+    }
+
+    .btn-primary:hover {
+      background: #0b5ed7;
+      border-color: #0b5ed7;
+    }
+
+    /* Search Bar Styles */
+    .search-container {
+      margin-bottom: 2rem;
+    }
+
+    .search-input {
+      border-radius: 25px;
+      padding: 0.5rem 1.5rem;
+      border: 1px solid #ddd;
+      width: 100%;
+      max-width: 400px;
+    }
+
+    /* Masonry Layout */
+    .masonry-grid {
+      margin: 0 -15px;
+    }
+
+    .masonry-grid-item {
+      padding: 15px;
+      width: 33.333%;
+    }
+
+    @media (max-width: 768px) {
+      .masonry-grid-item {
+        width: 50%;
+      }
+    }
+
+    @media (max-width: 576px) {
+      .masonry-grid-item {
+        width: 100%;
+      }
+    }
+
+    /* Favorites Button */
+    .favorite-btn {
+      position: absolute;
+      top: 20px;
+      left: 20px;
+      background: rgba(0,0,0,0.6);
+      border: none;
+      color: white;
+      padding: 5px 10px;
+      border-radius: 50%;
+      cursor: pointer;
+      z-index: 1;
+    }
+
+    .favorite-btn.active {
+      color: #ffd700;
+    }
+
+    /* Share Button */
+    .share-btn {
+      position: absolute;
+      top: 20px;
+      left: 60px;
+      background: rgba(0,0,0,0.6);
+      border: none;
+      color: white;
+      padding: 5px 10px;
+      border-radius: 50%;
+      cursor: pointer;
+      z-index: 1;
+    }
+
+    /* Expanded Description */
+    .gallery-overlay h5 {
+      margin: 0;
+      font-size: 1.2rem;
+      font-weight: 600;
+      margin-bottom: 8px;
+    }
+
+    .gallery-overlay p {
+      margin: 0;
+      font-size: 0.9rem;
+      opacity: 0.9;
+    }
+
+    .gallery-description {
+      margin-top: 10px;
+      max-height: 0;
+      overflow: hidden;
+      transition: max-height 0.3s ease;
+      font-size: 0.85rem;
+      opacity: 0.8;
+    }
+
+    .gallery-description.expanded {
+      max-height: 200px;
+    }
+
+    .expand-btn {
+      background: none;
+      border: none;
+      color: white;
+      padding: 5px 0;
+      margin-top: 10px;
+      cursor: pointer;
+      font-size: 0.9rem;
+      display: flex;
+      align-items: center;
+      gap: 5px;
+    }
+
+    .expand-btn:hover {
+      color: #0d6efd;
+    }
+
+    /* Action Buttons Container */
+    .gallery-actions {
+      position: absolute;
+      top: 20px;
+      left: 20px;
+      display: flex;
+      gap: 10px;
+      z-index: 2;
+    }
+
+    .action-btn {
+      width: 36px;
+      height: 36px;
+      border-radius: 50%;
+      background: rgba(0,0,0,0.7);
+      border: none;
+      color: white;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      cursor: pointer;
+      transition: all 0.3s ease;
+      backdrop-filter: blur(4px);
+    }
+
+    .action-btn:hover {
+      background: rgba(0,0,0,0.9);
+      transform: scale(1.1);
+    }
+
+    /* Gallery Grid */
+    .gallery-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+      gap: 20px;
+      padding: 0;
+      margin-bottom: 40px;
+    }
+
+    .gallery-item-wrapper {
+      break-inside: avoid;
+      margin: 0;
+      padding: 0;
+    }
+
+    @media (max-width: 768px) {
+      .gallery-grid {
+        grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+        gap: 15px;
+      }
+
+      .gallery-item {
+        height: 300px;
+      }
+    }
+
+    @media (max-width: 576px) {
+      .gallery-grid {
+        grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+        gap: 12px;
+      }
+
+      .gallery-item {
+        height: 250px;
+      }
+
+      .load-more-btn {
+        padding: 10px 24px;
+        font-size: 1rem;
+      }
+    }
+
+    /* Load More Button Container */
+    .load-more-container {
+      text-align: center;
+      padding: 20px 0 40px 0;
+      margin-top: 20px;
+      clear: both;
+    }
+
+    .load-more-btn {
+      padding: 12px 30px;
+      font-size: 1.1rem;
+      border-radius: 8px;
+      background: #0d6efd;
+      border: none;
+      color: white;
+      cursor: pointer;
+      transition: all 0.3s ease;
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+    }
+
+    .load-more-btn:hover {
+      background: #0b5ed7;
+      transform: translateY(-2px);
+    }
+
+    .load-more-btn i {
+      font-size: 1.2rem;
+    }
+
+    /* Favorites Section Adjustments */
+    .favorites-section {
+      margin-top: 60px;
+      padding-top: 40px;
+      border-top: 1px solid #dee2e6;
+    }
+
+    .favorites-section h3 {
+      margin-bottom: 30px;
+    }
+  </style>
+</head>
+<body>
+
+  <!-- Navigation -->
+  <header>
+    <nav class="navbar navbar-expand-lg navbar-dark fixed-top custom-navbar">
+      <div class="container-fluid px-4">
+        <!-- Brand -->
+        <a class="navbar-brand fw-bold fs-4 me-5" href="#">VisitaPinas.</a>
+    
+        <!-- Toggler -->
+        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
+          <span class="navbar-toggler-icon"></span>
+        </button>
+    
+        <!-- Navbar content -->
+        <div class="collapse navbar-collapse justify-content-center" id="navbarNav">
+          <!-- Centered Nav Links -->
+          <ul class="navbar-nav gap-4">
+            <li class="nav-item">
+              <a class="nav-link fs-7" href="index.html">Home</a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link fs-7" href="Destination.html">Destinations</a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link fs-7" href="Package.html">Packages</a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link fs-7" href="Contact.html">Contact</a>
+            </li>
+            <li class="nav-item dropdown">
+              <a class="nav-link fs-7 dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                About Us
+              </a>
+              <ul class="dropdown-menu">
+                <li><a class="dropdown-item" href="Aboutus.html">About Us</a></li>
+                <li><a class="dropdown-item" href="Blog.html">Blog</a></li>
+                <li><a class="dropdown-item" href="Emergency.html">Emergency Help</a></li>
+                <li><a class="dropdown-item" href="itinerary-builder.html">Itinerary Builder</a></li>
+                <li><a class="dropdown-item" href="FAQ.html">FAQ</a></li>
+                <li><a class="dropdown-item" href="Feedback.html">Feedback</a></li>
+              </ul>
+            </li>
+          </ul>
+        </div>
+    
+        <!-- Login Button on Right -->
+        <a href="#" class="btn btn-outline-light d-none d-lg-flex align-items-center ms-auto">
+          <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" fill="currentColor" class="bi bi-person" viewBox="0 0 16 16">
+            <path d="M8 8a3 3 0 1 0 0-6 3 3 0 0 0 0 6z"/>
+            <path fill-rule="evenodd" d="M8 9a5 5 0 0 0-4.546 2.916C3.11 12.72 4.27 14 5.772 14h4.456c1.502 0 2.662-1.28 2.318-2.084A5 5 0 0 0 8 9z"/>
+          </svg>
+          <span class="ms-2">Login</span>
+        </a>
+
+        <!-- Favorites Icon -->
+        <a href="favorites.html" class="ms-2 text-white position-relative" title="My Favorites">
+          <i class="bi bi-heart-fill fs-5"></i>
+          <span class="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-danger favorites-count">
+            2
+          </span>
+        </a>
+      </div>
+    </nav>
+  </header>
+
+  <!-- Hero Section -->
+  <section class="hero d-flex align-items-center text-white" style="min-height: 50vh; background: url('Homebg.jpg') no-repeat center center; background-size: cover; padding-top: 100px;">
+    <div class="container">
+      <div class="row">
+        <div class="col-lg-8 text-center text-lg-start">
+          <h1 class="display-4 fw-bold">Our Gallery</h1>
+          <p class="lead">Explore the beauty of the Philippines through our lens</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Gallery Section -->
+  <section class="py-5">
+    <div class="container">
+      <!-- Search Bar -->
+      <div class="search-container text-center mb-4">
+        <input type="text" class="search-input" placeholder="Search gallery images..." id="gallerySearch">
+      </div>
+
+      <!-- Gallery Filters -->
+      <div class="text-center gallery-filters mb-4">
+        <button class="filter-btn active" data-filter="all">All</button>
+        <button class="filter-btn" data-filter="beaches">Beaches</button>
+        <button class="filter-btn" data-filter="mountains">Mountains</button>
+        <button class="filter-btn" data-filter="cities">Cities</button>
+        <button class="filter-btn" data-filter="culture">Culture</button>
+        <button class="filter-btn" data-filter="food">Food</button>
+      </div>
+
+      <!-- Gallery Grid -->
+      <div class="gallery-grid">
+        <!-- Beach 1 -->
+        <div class="gallery-item-wrapper" data-category="beaches" data-tags="boracay,beach,white sand">
+          <div class="gallery-item">
+            <div class="gallery-actions">
+              <button class="action-btn favorite-btn" onclick="toggleFavorite(this)" aria-label="Add to favorites">
+                <i class="bi bi-heart"></i>
+              </button>
+              <button class="action-btn share-btn" onclick="shareImage(this)" aria-label="Share image">
+                <i class="bi bi-share"></i>
+              </button>
+            </div>
+            <a href="Homebg.jpg" data-lightbox="gallery" data-title="Boracay White Beach">
+              <img src="Homebg.jpg" alt="Boracay Beach" loading="lazy">
+              <div class="gallery-category">Beaches</div>
+              <div class="gallery-overlay">
+                <h5>Boracay White Beach</h5>
+                <p>Crystal clear waters and powder-fine white sand</p>
+                <div class="gallery-description">
+                  <p>Experience the world-famous Boracay White Beach, known for its pristine shores and stunning sunsets. Perfect for swimming, water sports, and beach activities.</p>
+                </div>
+                <button class="expand-btn" onclick="toggleDescription(this)">
+                  <i class="bi bi-chevron-down"></i>
+                  <span>Read More</span>
+                </button>
+              </div>
+            </a>
+          </div>
+        </div>
+
+        <!-- Mountain 1 -->
+        <div class="gallery-item-wrapper" data-category="mountains" data-tags="banaue,rice terraces,mountain">
+          <div class="gallery-item">
+            <div class="gallery-actions">
+              <button class="action-btn favorite-btn" onclick="toggleFavorite(this)">
+                <i class="bi bi-heart"></i>
+              </button>
+              <button class="action-btn share-btn" onclick="shareImage(this)">
+                <i class="bi bi-share"></i>
+              </button>
+            </div>
+            <a href="Homebg.jpg" data-lightbox="gallery" data-title="Banaue Rice Terraces">
+              <img src="Homebg.jpg" alt="Banaue Rice Terraces" loading="lazy">
+              <div class="gallery-category">Mountains</div>
+              <div class="gallery-overlay">
+                <h5>Banaue Rice Terraces</h5>
+                <p class="mb-2">Ancient terraces carved into the mountains</p>
+                <div class="gallery-description">
+                  <p>Marvel at the 2000-year-old rice terraces, often called the "Eighth Wonder of the World". A testament to Filipino ingenuity and agricultural expertise.</p>
+                </div>
+                <button class="expand-btn" onclick="toggleDescription(this)">
+                  <i class="bi bi-chevron-down"></i>
+                  <span>Read More</span>
+                </button>
+              </div>
+            </a>
+          </div>
+        </div>
+
+        <!-- City 1 -->
+        <div class="gallery-item-wrapper" data-category="cities" data-tags="manila,skyline,city">
+          <div class="gallery-item">
+            <div class="gallery-actions">
+              <button class="action-btn favorite-btn" onclick="toggleFavorite(this)">
+                <i class="bi bi-heart"></i>
+              </button>
+              <button class="action-btn share-btn" onclick="shareImage(this)">
+                <i class="bi bi-share"></i>
+              </button>
+            </div>
+            <a href="Homebg.jpg" data-lightbox="gallery" data-title="Manila Skyline">
+              <img src="Homebg.jpg" alt="Manila Skyline" loading="lazy">
+              <div class="gallery-category">Cities</div>
+              <div class="gallery-overlay">
+                <h5>Manila Skyline</h5>
+                <p class="mb-2">Modern cityscape at sunset</p>
+                <div class="gallery-description">
+                  <p>Experience the vibrant cityscape of Manila at sunset, with its modern skyscrapers and historic landmarks.</p>
+                </div>
+                <button class="expand-btn" onclick="toggleDescription(this)">
+                  <i class="bi bi-chevron-down"></i>
+                  <span>Read More</span>
+                </button>
+              </div>
+            </a>
+          </div>
+        </div>
+
+        <!-- Culture 1 -->
+        <div class="gallery-item-wrapper" data-category="culture" data-tags="sinulog,festival,cebu">
+          <div class="gallery-item">
+            <div class="gallery-actions">
+              <button class="action-btn favorite-btn" onclick="toggleFavorite(this)">
+                <i class="bi bi-heart"></i>
+              </button>
+              <button class="action-btn share-btn" onclick="shareImage(this)">
+                <i class="bi bi-share"></i>
+              </button>
+            </div>
+            <a href="Homebg.jpg" data-lightbox="gallery" data-title="Sinulog Festival">
+              <img src="Homebg.jpg" alt="Sinulog Festival" loading="lazy">
+              <div class="gallery-category">Culture</div>
+              <div class="gallery-overlay">
+                <h5>Sinulog Festival</h5>
+                <p class="mb-2">Vibrant cultural celebration in Cebu</p>
+                <div class="gallery-description">
+                  <p>Experience the Sinulog Festival, a vibrant cultural celebration in Cebu, Philippines. It's a time for merrymaking, dancing, and honoring the Santo Niño.</p>
+                </div>
+                <button class="expand-btn" onclick="toggleDescription(this)">
+                  <i class="bi bi-chevron-down"></i>
+                  <span>Read More</span>
+                </button>
+              </div>
+            </a>
+          </div>
+        </div>
+
+        <!-- Food 1 -->
+        <div class="gallery-item-wrapper" data-category="food" data-tags="filipino,cuisine,delicacies">
+          <div class="gallery-item">
+            <div class="gallery-actions">
+              <button class="action-btn favorite-btn" onclick="toggleFavorite(this)">
+                <i class="bi bi-heart"></i>
+              </button>
+              <button class="action-btn share-btn" onclick="shareImage(this)">
+                <i class="bi bi-share"></i>
+              </button>
+            </div>
+            <a href="Homebg.jpg" data-lightbox="gallery" data-title="Filipino Cuisine">
+              <img src="Homebg.jpg" alt="Filipino Food" loading="lazy">
+              <div class="gallery-category">Food</div>
+              <div class="gallery-overlay">
+                <h5>Filipino Cuisine</h5>
+                <p class="mb-2">Traditional dishes and delicacies</p>
+                <div class="gallery-description">
+                  <p>Discover the diverse and delicious Filipino cuisine, ranging from savory lechon to sweet halo-halo.</p>
+                </div>
+                <button class="expand-btn" onclick="toggleDescription(this)">
+                  <i class="bi bi-chevron-down"></i>
+                  <span>Read More</span>
+                </button>
+              </div>
+            </a>
+          </div>
+        </div>
+
+        <!-- Beach 2 -->
+        <div class="gallery-item-wrapper" data-category="beaches" data-tags="el nido,lagoon,limestone">
+          <div class="gallery-item">
+            <div class="gallery-actions">
+              <button class="action-btn favorite-btn" onclick="toggleFavorite(this)">
+                <i class="bi bi-heart"></i>
+              </button>
+              <button class="action-btn share-btn" onclick="shareImage(this)">
+                <i class="bi bi-share"></i>
+              </button>
+            </div>
+            <a href="Homebg.jpg" data-lightbox="gallery" data-title="El Nido Lagoons">
+              <img src="Homebg.jpg" alt="El Nido" loading="lazy">
+              <div class="gallery-category">Beaches</div>
+              <div class="gallery-overlay">
+                <h5>El Nido Lagoons</h5>
+                <p class="mb-2">Hidden lagoons and limestone cliffs</p>
+                <div class="gallery-description">
+                  <p>Explore the stunning El Nido Lagoons, a hidden gem in Palawan, Philippines. Enjoy the crystal clear waters and limestone cliffs.</p>
+                </div>
+                <button class="expand-btn" onclick="toggleDescription(this)">
+                  <i class="bi bi-chevron-down"></i>
+                  <span>Read More</span>
+                </button>
+              </div>
+            </a>
+          </div>
+        </div>
+      </div>
+
+      <!-- Load More Button -->
+      <div class="load-more-container">
+        <button class="load-more-btn" onclick="loadMore()">
+          <i class="bi bi-plus-circle"></i>
+          <span>Load More</span>
+        </button>
+      </div>
+
+      <!-- Favorites Section -->
+      <div class="favorites-section d-none">
+        <h3 class="text-center">Your Favorites</h3>
+        <div class="gallery-grid" id="favoritesGrid"></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Footer -->
+  <footer class="text-white pt-5 pb-3" style="background: linear-gradient(to right, #343a40, #495057);">
+    <div class="container">
+      <div class="row text-center text-md-start">
+        <!-- Logo and About -->
+        <div class="col-md-4 mb-4">
+          <h4 class="fw-bold">VisitaPinas.</h4>
+          <p>Your ultimate travel partner in exploring the Philippines. Discover beauty, culture, and adventure with ease.</p>
+        </div>
+
+        <!-- Navigation Links -->
+        <div class="col-md-4 mb-4">
+          <h5 class="fw-semibold">Quick Links</h5>
+          <ul class="list-unstyled">
+            <li><a href="#" class="text-white text-decoration-none">Home</a></li>
+            <li><a href="#" class="text-white text-decoration-none">Destinations</a></li>
+            <li><a href="#" class="text-white text-decoration-none">Packages</a></li>
+            <li><a href="#" class="text-white text-decoration-none">Contact</a></li>
+          </ul>
+        </div>
+
+        <!-- Social Media & Contact -->
+        <div class="col-md-4 mb-4">
+          <h5 class="fw-semibold">Connect With Us</h5>
+          <div class="d-flex gap-3 justify-content-center justify-content-md-start">
+            <a href="#" class="text-white fs-4"><i class="bi bi-facebook"></i></a>
+            <a href="#" class="text-white fs-4"><i class="bi bi-twitter"></i></a>
+            <a href="#" class="text-white fs-4"><i class="bi bi-instagram"></i></a>
+            <a href="#" class="text-white fs-4"><i class="bi bi-envelope-fill"></i></a>
+          </div>
+          <p class="mt-3 mb-0"><i class="bi bi-geo-alt-fill me-2"></i>Philippines</p>
+          <p class="mb-0"><i class="bi bi-phone-fill me-2"></i>+63 912 345 6789</p>
+        </div>
+      </div>
+
+      <hr class="border-light" />
+
+      <!-- Bottom Text -->
+      <div class="text-center small">
+        &copy; 2025 VisitaPinas. All rights reserved.
+      </div>
+    </div>
+  </footer>
+
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/lightbox2/2.11.3/js/lightbox.min.js"></script>
+  <script src="https://unpkg.com/masonry-layout@4/dist/masonry.pkgd.min.js"></script>
+  <script>
+    // Update the JavaScript for consistent functionality
+    document.addEventListener('DOMContentLoaded', function() {
+      // Filter functionality
+      const filterButtons = document.querySelectorAll('.filter-btn');
+      const galleryItems = document.querySelectorAll('.gallery-item-wrapper');
+
+      filterButtons.forEach(button => {
+        button.addEventListener('click', () => {
+          // Remove active class from all buttons
+          filterButtons.forEach(btn => btn.classList.remove('active'));
+          // Add active class to clicked button
+          button.classList.add('active');
+
+          const filterValue = button.getAttribute('data-filter');
+
+          galleryItems.forEach(item => {
+            if (filterValue === 'all' || item.getAttribute('data-category') === filterValue) {
+              item.style.display = 'block';
+            } else {
+              item.style.display = 'none';
+            }
+          });
+        });
+      });
+
+      // Search functionality
+      document.getElementById('gallerySearch').addEventListener('input', function(e) {
+        const searchTerm = e.target.value.toLowerCase();
+        const galleryItems = document.querySelectorAll('.gallery-item-wrapper');
+        
+        galleryItems.forEach(item => {
+          const tags = item.getAttribute('data-tags').toLowerCase();
+          const visible = tags.includes(searchTerm);
+          item.style.display = visible ? 'block' : 'none';
+        });
+      });
+    });
+
+    // Favorite functionality
+    function toggleFavorite(btn) {
+      btn.classList.toggle('active');
+      const heartIcon = btn.querySelector('i');
+      heartIcon.classList.toggle('bi-heart');
+      heartIcon.classList.toggle('bi-heart-fill');
+      updateFavorites();
+    }
+
+    // Share functionality
+    function shareImage(btn) {
+      const galleryItem = btn.closest('.gallery-item');
+      const imageTitle = galleryItem.querySelector('h5').textContent;
+      const imageUrl = galleryItem.querySelector('a').href;
+      
+      if (navigator.share) {
+        navigator.share({
+          title: imageTitle,
+          text: 'Check out this amazing photo from VisitaPinas!',
+          url: imageUrl
+        });
+      } else {
+        const dummy = document.createElement('input');
+        document.body.appendChild(dummy);
+        dummy.value = imageUrl;
+        document.execCommand('copy');
+        document.body.removeChild(dummy);
+        alert('Link copied to clipboard!');
+      }
+    }
+
+    // Description expansion
+    function toggleDescription(btn) {
+      const description = btn.previousElementSibling;
+      description.classList.toggle('expanded');
+      const icon = btn.querySelector('i');
+      const text = btn.querySelector('span');
+      
+      if (description.classList.contains('expanded')) {
+        icon.classList.replace('bi-chevron-down', 'bi-chevron-up');
+        text.textContent = 'Read Less';
+      } else {
+        icon.classList.replace('bi-chevron-up', 'bi-chevron-down');
+        text.textContent = 'Read More';
+      }
+    }
+
+    // Update favorites section
+    function updateFavorites() {
+      const favoritesGrid = document.getElementById('favoritesGrid');
+      const favoritesSection = document.querySelector('.favorites-section');
+      const favorited = document.querySelectorAll('.favorite-btn.active');
+      
+      if (favorited.length > 0) {
+        favoritesSection.classList.remove('d-none');
+        favoritesGrid.innerHTML = '';
+        
+        favorited.forEach(btn => {
+          const galleryItem = btn.closest('.gallery-item-wrapper');
+          const clone = galleryItem.cloneNode(true);
+          favoritesGrid.appendChild(clone);
+        });
+      } else {
+        favoritesSection.classList.add('d-none');
+      }
+    }
+
+    // Update the loadMore function
+    function loadMore() {
+      const btn = document.querySelector('.load-more-btn');
+      btn.disabled = true;
+      btn.innerHTML = `
+        <span class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span>
+        <span class="ms-2">Loading...</span>
+      `;
+      
+      // Simulate loading (replace with actual API call)
+      setTimeout(() => {
+        btn.disabled = false;
+        btn.innerHTML = `
+          <i class="bi bi-plus-circle"></i>
+          <span>Load More</span>
+        `;
+        // Add your image loading logic here
+      }, 1000);
+    }
+
+    // Ensure consistent card heights
+    function updateCardHeights() {
+      const items = document.querySelectorAll('.gallery-item');
+      items.forEach(item => {
+        const img = item.querySelector('img');
+        if (img.complete) {
+          item.style.height = '350px';
+        } else {
+          img.addEventListener('load', () => {
+            item.style.height = '350px';
+          });
+        }
+      });
+    }
+
+    // Call on page load and after dynamic content changes
+    document.addEventListener('DOMContentLoaded', updateCardHeights);
+    // Call after loading more items
+    document.addEventListener('gallery:itemsAdded', updateCardHeights);
+
+    // Initialize Lightbox
+    lightbox.option({
+      'resizeDuration': 200,
+      'wrapAround': true,
+      'showImageNumberLabel': false,
+      'fadeDuration': 200,
+      'albumLabel': 'Image %1 of %2',
+      'disableScrolling': true
+    });
+
+    // Update lazy loading for better image handling
+    const lazyImages = document.querySelectorAll('img[loading="lazy"]');
+    const imageObserver = new IntersectionObserver((entries, observer) => {
+      entries.forEach(entry => {
+        if (entry.isIntersecting) {
+          const img = entry.target;
+          if (img.dataset.src) {
+            img.src = img.dataset.src;
+            img.removeAttribute('data-src');
+          }
+          observer.unobserve(img);
+        }
+      });
+    }, {
+      rootMargin: '50px 0px',
+      threshold: 0.1
+    });
+
+    lazyImages.forEach(img => {
+      if (img.complete) {
+        imageObserver.observe(img);
+      } else {
+        img.addEventListener('load', () => {
+          imageObserver.observe(img);
+        });
+      }
+    });
+
+    // Ensure images maintain aspect ratio after load
+    document.addEventListener('DOMContentLoaded', function() {
+      const galleryItems = document.querySelectorAll('.gallery-item');
+      galleryItems.forEach(item => {
+        const img = item.querySelector('img');
+        if (img) {
+          img.addEventListener('load', function() {
+            item.style.height = `${img.offsetWidth * (4/3)}px`;
+          });
+        }
+      });
+    });
+  </script>
+</body>
+</html> 

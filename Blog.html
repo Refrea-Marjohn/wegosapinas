@@ -1,0 +1,461 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Blog - VisitaPinas</title>
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+  <!-- Bootstrap Icons CDN -->
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.5/font/bootstrap-icons.css" rel="stylesheet">
+  <style>
+    .hero {
+      background-color: #f8f9fa;
+      min-height: 70vh;
+      padding-top: 76px; /* Adjusted to account for navbar height */
+      position: relative;
+      overflow: hidden;
+      margin-bottom: 2rem;
+    }
+
+    .hero h1 {
+      font-size: 3rem;
+      font-weight: bold;
+      color: #fff;
+      position: relative;
+      z-index: 2;
+    }
+
+    .hero p {
+      font-size: 1.2rem;
+      margin-bottom: 1.5rem;
+      color: #fff;
+      position: relative;
+      z-index: 2;
+    }
+
+    #slideshow {
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background: linear-gradient(rgba(0, 0, 0, 0.5), rgba(0, 0, 0, 0.5));
+    }
+    
+    .slideshow-img {
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      opacity: 0;
+      transition: opacity 1s ease-in-out;
+    }
+    
+    .slideshow-img[style*="opacity: 1"] {
+      z-index: 1;
+    }
+    
+    .arrow-left, .arrow-right {
+      position: absolute;
+      top: 50%;
+      transform: translateY(-50%);
+      cursor: pointer;
+      z-index: 3;
+      color: white;
+      font-size: 30px;
+      background: rgba(0, 0, 0, 0.3);
+      padding: 10px;
+      border-radius: 50%;
+      transition: all 0.3s ease;
+    }
+    
+    .arrow-left {
+      left: 20px;
+    }
+    
+    .arrow-right {
+      right: 20px;
+    }
+    
+    .arrow-left:hover, .arrow-right:hover {
+      background: rgba(0, 0, 0, 0.5);
+      color: #fff;
+    }
+    
+    .custom-navbar {
+      background-color: rgba(0, 0, 0, 0.3);
+      padding-top: 0.5rem; 
+      padding-bottom: 0.5rem;
+      width: 100%;
+      z-index: 999;
+    }
+    
+    .navbar-brand,
+    .nav-link {
+      color: #ffffff !important;
+      font-weight: 500;
+      font-size: 0.95rem;
+    }
+    
+    .navbar-nav .nav-link {
+      padding-left: 0.75rem;
+      padding-right: 0.75rem;
+      transition: color 0.3s ease;
+    }
+    
+    .navbar-nav .nav-link:hover {
+      color: #ffffff !important;
+      text-decoration: underline;
+    }
+    
+    .navbar-brand, .nav-link {
+      font-size: 0.95rem;
+    }
+    
+    .navbar .btn-outline-light {
+      font-size: 0.85rem;
+      padding: 0.3rem 0.75rem;
+    }
+
+    .blog-card {
+      transition: transform 0.3s ease;
+      height: 100%;
+      margin-bottom: 1rem;
+    }
+    .blog-card:hover {
+      transform: translateY(-5px);
+    }
+    .blog-card .card-body {
+      padding: 1.5rem;
+    }
+    .blog-card .card-title {
+      margin-bottom: 1rem;
+    }
+    .blog-card .card-text {
+      margin-bottom: 1.5rem;
+    }
+    .featured-author img {
+      width: 60px;
+      height: 60px;
+      object-fit: cover;
+    }
+    .category-badge {
+      position: absolute;
+      top: 1rem;
+      right: 1rem;
+    }
+    .section-title {
+      margin-bottom: 2rem;
+      padding-top: 1rem;
+    }
+    .newsletter-section {
+      padding: 5rem 0;
+      margin: 4rem 0;
+      background-color: #f8f9fa;
+    }
+    .featured-post-card {
+      margin-bottom: 3rem;
+    }
+    .featured-post-card .card-body {
+      padding: 2rem;
+    }
+    @media (min-width: 992px) {
+      .featured-post-card .card-body {
+        padding: 3rem;
+      }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- Navigation -->
+  <header>
+    <nav class="navbar navbar-expand-lg navbar-dark fixed-top custom-navbar">
+      <div class="container-fluid px-4">
+        <!-- Brand -->
+        <a class="navbar-brand fw-bold fs-4 me-5" href="#">VisitaPinas.</a>
+    
+        <!-- Toggler -->
+        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
+          <span class="navbar-toggler-icon"></span>
+        </button>
+    
+        <!-- Navbar content -->
+        <div class="collapse navbar-collapse justify-content-center" id="navbarNav">
+          <ul class="navbar-nav gap-4">
+            <li class="nav-item">
+              <a class="nav-link fs-7" href="index.html">Home</a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link fs-7" href="Destination.html">Destinations</a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link fs-7" href="Package.html">Packages</a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link fs-7" href="Contact.html">Contact</a>
+            </li>
+            <li class="nav-item dropdown">
+              <a class="nav-link fs-7 dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                About Us
+              </a>
+              <ul class="dropdown-menu">
+                <li><a class="dropdown-item" href="Aboutus.html">About Us</a></li>
+                <li><a class="dropdown-item active" href="Blog.html">Blog</a></li>
+                <li><a class="dropdown-item" href="Emergency.html">Emergency Help</a></li>
+                <li><a class="dropdown-item" href="itinerary-builder.html">Itinerary Builder</a></li>
+                <li><a class="dropdown-item" href="FAQ.html">FAQ</a></li>
+                <li><a class="dropdown-item" href="Feedback.html">Feedback</a></li>
+              </ul>
+            </li>
+          </ul>
+        </div>
+    
+        <!-- Login Button -->
+        <a href="#" class="btn btn-outline-light d-none d-lg-flex align-items-center ms-auto">
+          <i class="bi bi-person"></i>
+          <span class="ms-2">Login</span>
+        </a>
+      </div>
+    </nav>
+  </header>
+
+  <!-- Hero Section with Carousel -->
+  <section id="blog-hero" class="hero d-flex align-items-center justify-content-center text-center">
+    <!-- Slideshow container -->
+    <div id="slideshow">
+      <!-- Slideshow images -->
+      <img src="images/Homebg.jpg" class="slideshow-img" style="opacity: 1;">
+      <img src="images/sunset.jpg" class="slideshow-img" style="opacity: 0;">
+      <img src="images/hills.jpg" class="slideshow-img" style="opacity: 0;">
+    </div>
+  
+    <!-- Arrow navigation -->
+    <div class="arrow-left">
+      <i class="bi bi-chevron-left"></i>
+    </div>
+    <div class="arrow-right">
+      <i class="bi bi-chevron-right"></i>
+    </div>
+  
+    <!-- Centered Text -->
+    <div class="container position-relative" style="z-index: 2;">
+      <h1 class="display-5 fw-bold mb-3">Travel Blog & Stories</h1>
+      <p class="lead">Discover stories, tips, and insights from fellow travelers exploring the Philippines</p>
+    </div>
+  </section>
+
+  <!-- Main Content -->
+  <div class="container mb-5" style="margin-top: 4rem;">
+    <!-- Featured Post -->
+    <div class="row mb-5">
+      <div class="col-12">
+        <div class="card border-0 shadow-sm">
+          <div class="row g-0">
+            <div class="col-md-6">
+              <img src="images/palawan.jpg" class="img-fluid rounded-start h-100" style="object-fit: cover;" alt="Featured post">
+            </div>
+            <div class="col-md-6">
+              <div class="card-body p-4 p-lg-5">
+                <span class="badge bg-primary mb-2">Featured Story</span>
+                <h2 class="card-title h3 mb-3">A Journey Through the Hidden Gems of Palawan</h2>
+                <p class="card-text mb-4">Join Maria Santos as she takes us through her unforgettable adventure exploring the lesser-known spots of Palawan, from secret beaches to local communities.</p>
+                <div class="featured-author d-flex align-items-center mb-4">
+                  <img src="https://i.pravatar.cc/150?img=32" class="rounded-circle me-3" alt="Author">
+                  <div>
+                    <h6 class="mb-0">Maria Santos</h6>
+                    <small class="text-muted">Local Explorer</small>
+                  </div>
+                </div>
+                <a href="#" class="btn btn-primary px-4">Read More</a>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Travel Tips Section -->
+    <h2 class="mb-4 pt-3">Travel Tips & Guides</h2>
+    <div class="row g-4 mb-5">
+      <!-- Tip 1 -->
+      <div class="col-md-4">
+        <div class="card h-100 border-0 shadow-sm blog-card">
+          <img src="images/pinas.jpg" class="card-img-top" alt="Budget Travel">
+          <span class="badge bg-success category-badge">Budget Tips</span>
+          <div class="card-body">
+            <h5 class="card-title">Budget Travel in the Philippines</h5>
+            <p class="card-text">Essential tips for exploring the Philippines on a budget, from accommodation to transportation.</p>
+            <a href="#" class="btn btn-link text-decoration-none p-0">Read More →</a>
+          </div>
+        </div>
+      </div>
+
+      <!-- Tip 2 -->
+      <div class="col-md-4">
+        <div class="card h-100 border-0 shadow-sm blog-card">
+          <img src="images/solotraveler.jpg" class="card-img-top" alt="Safety Tips">
+          <span class="badge bg-warning category-badge">Safety</span>
+          <div class="card-body">
+            <h5 class="card-title">Safety Tips for Solo Travelers</h5>
+            <p class="card-text">Important safety guidelines and recommendations for solo travelers in the Philippines.</p>
+            <a href="#" class="btn btn-link text-decoration-none p-0">Read More →</a>
+          </div>
+        </div>
+      </div>
+
+      <!-- Tip 3 -->
+      <div class="col-md-4">
+        <div class="card h-100 border-0 shadow-sm blog-card">
+          <img src="images/bestime.jpg" class="card-img-top" alt="Best Time">
+          <span class="badge bg-info category-badge">Planning</span>
+          <div class="card-body">
+            <h5 class="card-title">Best Times to Visit</h5>
+            <p class="card-text">A comprehensive guide on the best seasons to visit different Philippine destinations.</p>
+            <a href="#" class="btn btn-link text-decoration-none p-0">Read More →</a>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Featured Stories Section -->
+    <h2 class="mb-4">Featured Stories</h2>
+    <div class="row g-4">
+      <!-- Story 1 -->
+      <div class="col-md-6">
+        <div class="card h-100 border-0 shadow-sm blog-card">
+          <div class="row g-0">
+            <div class="col-md-4">
+              <img src="images/tribe.jpg" class="img-fluid h-100" style="object-fit: cover;" alt="Local story">
+            </div>
+            <div class="col-md-8">
+              <div class="card-body">
+                <span class="badge bg-primary mb-2">Local Story</span>
+                <h5 class="card-title">Living with the T'boli Tribe</h5>
+                <p class="card-text">A week-long immersion with the T'boli community in South Cotabato.</p>
+                <div class="d-flex align-items-center">
+                  <img src="https://i.pravatar.cc/150?img=45" class="rounded-circle me-2" width="30" alt="Author">
+                  <small class="text-muted">By Juan dela Cruz</small>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Story 2 -->
+      <div class="col-md-6">
+        <div class="card h-100 border-0 shadow-sm blog-card">
+          <div class="row g-0">
+            <div class="col-md-4">
+              <img src="images/manila.jpg" class="img-fluid h-100" style="object-fit: cover;" alt="Tourist story">
+            </div>
+            <div class="col-md-8">
+              <div class="card-body">
+                <span class="badge bg-success mb-2">Tourist Story</span>
+                <h5 class="card-title">First-Timer's Guide to Manila</h5>
+                <p class="card-text">An Australian tourist shares her experience navigating the bustling capital.</p>
+                <div class="d-flex align-items-center">
+                  <img src="https://i.pravatar.cc/150?img=23" class="rounded-circle me-2" width="30" alt="Author">
+                  <small class="text-muted">By Sarah Wilson</small>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Newsletter Section -->
+  <section class="newsletter-section">
+    <div class="container text-center">
+      <div class="row justify-content-center">
+        <div class="col-md-8 col-lg-6">
+          <h3 class="mb-3">Stay Updated</h3>
+          <p class="text-muted mb-4">Subscribe to our newsletter for the latest travel tips and stories</p>
+          <form class="d-flex gap-2">
+            <input type="email" class="form-control form-control-lg" placeholder="Enter your email">
+            <button type="submit" class="btn btn-primary px-4">Subscribe</button>
+          </form>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Footer -->
+  <footer class="text-white pt-5 pb-3" style="background: linear-gradient(to right, #0f2027, #203a43, #2c5364);">
+    <div class="container">
+      <div class="row text-center text-md-start">
+        <!-- Logo and About -->
+        <div class="col-md-4 mb-4">
+          <h4 class="fw-bold">VisitaPinas.</h4>
+          <p>Your ultimate travel partner in exploring the Philippines. Discover beauty, culture, and adventure with ease.</p>
+        </div>
+
+        <!-- Navigation Links -->
+        <div class="col-md-4 mb-4">
+          <h5 class="fw-semibold">Quick Links</h5>
+          <ul class="list-unstyled">
+            <li><a href="index.html" class="text-white text-decoration-none">Home</a></li>
+            <li><a href="Destination.html" class="text-white text-decoration-none">Destinations</a></li>
+            <li><a href="Package.html" class="text-white text-decoration-none">Packages</a></li>
+            <li><a href="Contact.html" class="text-white text-decoration-none">Contact</a></li>
+          </ul>
+        </div>
+
+        <!-- Social Media & Contact -->
+        <div class="col-md-4 mb-4">
+          <h5 class="fw-semibold">Connect With Us</h5>
+          <div class="d-flex gap-3 justify-content-center justify-content-md-start">
+            <a href="#" class="text-white fs-4"><i class="bi bi-facebook"></i></a>
+            <a href="#" class="text-white fs-4"><i class="bi bi-twitter"></i></a>
+            <a href="#" class="text-white fs-4"><i class="bi bi-instagram"></i></a>
+            <a href="#" class="text-white fs-4"><i class="bi bi-envelope-fill"></i></a>
+          </div>
+          <p class="mt-3 mb-0"><i class="bi bi-geo-alt-fill me-2"></i>Philippines</p>
+          <p class="mb-0"><i class="bi bi-phone-fill me-2"></i>+63 912 345 6789</p>
+        </div>
+      </div>
+
+      <hr class="border-light" />
+
+      <!-- Bottom Text -->
+      <div class="text-center small">
+        &copy; 2025 VisitaPinas. All rights reserved.
+      </div>
+    </div>
+  </footer>
+
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+  <script>
+    document.addEventListener('DOMContentLoaded', function() {
+      // Slideshow functionality
+      const images = document.querySelectorAll('.slideshow-img');
+      let currentImageIndex = 0;
+      const totalImages = images.length;
+
+      function showNextImage() {
+        images[currentImageIndex].style.opacity = '0';
+        currentImageIndex = (currentImageIndex + 1) % totalImages;
+        images[currentImageIndex].style.opacity = '1';
+      }
+
+      function showPreviousImage() {
+        images[currentImageIndex].style.opacity = '0';
+        currentImageIndex = (currentImageIndex - 1 + totalImages) % totalImages;
+        images[currentImageIndex].style.opacity = '1';
+      }
+
+      // Set up click handlers for arrows
+      document.querySelector('.arrow-left').addEventListener('click', showPreviousImage);
+      document.querySelector('.arrow-right').addEventListener('click', showNextImage);
+
+      // Auto-advance slideshow every 5 seconds
+      setInterval(showNextImage, 5000);
+    });
+  </script>
+</body>
+</html> 

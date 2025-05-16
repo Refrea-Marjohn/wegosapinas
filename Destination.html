@@ -1,0 +1,1197 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Travel and Hospitality</title>
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+  <!-- Bootstrap Icons CDN -->
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.5/font/bootstrap-icons.css" rel="stylesheet">
+
+  <!-- <link rel="stylesheet" href="Destination.css"> -->
+   <style>
+    .hero {
+    background-color: #f8f9fa;
+    min-height: 100vh;
+    padding-top: 100px;
+    position: relative;
+  }
+  
+
+.hero h1 {
+    font-size: 3rem;
+    font-weight: bold;
+    color: #fff;
+}
+
+.hero p {
+    font-size: 1.2rem;
+    margin-bottom: 1.5rem;
+    color: #fff;
+}
+
+#slideshow {
+    position: relative;
+    width: 100%;
+    height: 100%;
+  }
+  
+  #slideshow img {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    opacity: 0;
+    transition: opacity 1s ease-in-out;
+  }
+  
+  #slideshow img.active {
+    opacity: 1;
+  }
+  
+  .arrow-left, .arrow-right {
+    position: absolute;
+    top: 50%;
+    transform: translateY(-50%);
+    cursor: pointer;
+    z-index: 1;
+    color: white;
+    font-size: 30px;
+  }
+  
+  .arrow-left {
+    left: 10px;
+  }
+  
+  .arrow-right {
+    right: 10px;
+  }
+  
+  .arrow-left:hover, .arrow-right:hover {
+    color: #f0f0f0;
+  }
+  
+  .arrow-left:hover, .arrow-right:hover {
+    color: #ddd;
+  }
+  
+  .custom-navbar {
+    background-color: rgba(0, 0, 0, 0.3);
+    padding-top: 0.5rem; 
+    padding-bottom: 0.5rem;
+    width: 100%;
+    z-index: 999;
+  }
+  
+  .navbar-brand,
+  .nav-link {
+    color: #ffffff !important;
+    font-weight: 500;
+    font-size: 0.95rem;
+  }
+  
+  .navbar-nav .nav-link {
+    padding-left: 0.75rem;
+    padding-right: 0.75rem;
+    transition: color 0.3s ease;
+  }
+  
+  .navbar-nav .nav-link:hover {
+    color: #ffffff !important;
+    text-decoration: underline;
+  }
+  
+  .navbar-brand, .nav-link {
+    font-size: 0.95rem;
+  }
+  
+  .navbar .btn-outline-light {
+    font-size: 0.85rem;
+    padding: 0.3rem 0.75rem;
+  }
+
+  .section-title {
+    font-size: 2rem; 
+  }
+  
+  .destination-card {
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+  }
+  
+  .destination-card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 8px 16px rgba(0,0,0,0.15);
+  }
+  
+  .favorite-icon {
+    position: absolute;
+    top: 1rem;
+    right: 1rem;
+    background-color: white;
+    border-radius: 50%;
+    width: 40px;
+    height: 40px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+  }
+  
+  .favorite-icon:hover {
+    background-color: #f8f9fa;
+  }
+  
+  .favorite-icon i {
+    color: #dc3545; 
+    font-size: 1.2rem;
+  }
+
+  .category-destinations-section {
+    background-color: #f8f9fa;
+    padding-inline: 2rem;
+  }
+  
+  .category-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+    gap: 2rem;
+    max-width: 1200px;
+    margin: 0 auto;
+  }
+  
+  .category-card {
+    background-color: #fff;
+    border-radius: 15px;
+    overflow: hidden;
+    box-shadow: 0 8px 20px rgba(0, 0, 0, 0.08);
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+  }
+  
+  .category-card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 12px 25px rgba(0, 0, 0, 0.12);
+  }
+  
+  .category-card img {
+    width: 100%;
+    height: 220px;
+    object-fit: cover;
+  }
+  
+  .category-info {
+    padding: 1rem;
+    text-align: center;
+  }
+  
+  .category-info h5 {
+    font-size: 1.25rem;
+    font-weight: 600;
+    margin-bottom: 0.5rem;
+  }
+  
+  .category-info p {
+    color: #6c757d;
+    font-size: 0.9rem;
+  }
+
+  .view-more-btn {
+    display: inline-block;
+    margin-top: 10px;
+    padding: 8px 20px;
+    background-color: #0096c7;
+    color: #fff;
+    border-radius: 25px;
+    font-size: 0.9rem;
+    text-decoration: none;
+    transition: background-color 0.3s ease, transform 0.2s ease;
+  }
+  
+  .view-more-btn:hover {
+    background-color: #0077a6;
+    transform: scale(1.05);
+  }
+  
+
+  .special-offer img {
+    transition: transform 0.3s ease;
+  }
+  .special-offer img:hover {
+    transform: scale(1.03);
+  }
+  
+
+  .more-destinations-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+    gap: 2rem;
+    max-width: 1200px;
+    margin: 0 auto;
+  }
+  
+  .more-destinations-section{
+    background: #f8f9fa;
+  }
+
+  .destination-card.horizontal {
+    display: flex;
+    flex-direction: row;
+    background: #f8f9fa;
+    border-radius: 20px;
+    overflow: hidden;
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.08);
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+    height: 220px;
+  }
+  
+  .destination-card.horizontal:hover {
+    transform: translateY(-6px);
+    box-shadow: 0 14px 35px rgba(0, 0, 0, 0.12);
+  }
+  
+  .card-image {
+    flex: 0 0 50%;
+  }
+  
+  .card-image img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+  }
+  
+  .destination-info {
+    flex: 1;
+    padding: 1rem 1.2rem;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+  }
+  
+  .destination-info h5 {
+    font-size: 1.3rem;
+    font-weight: 700;
+    margin-bottom: 0.4rem;
+    color: #222;
+  }
+  
+  .destination-info p {
+    font-size: 0.95rem;
+    color: #555;
+    margin-bottom: 0.8rem;
+  }
+  
+  .go-btn {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    background-color: #0096c7;
+    color: #fff;
+    padding: 0.5rem 1rem;
+    font-size: 0.9rem;
+    border-radius: 30px;
+    text-decoration: none;
+    width: fit-content;
+    transition: background-color 0.3s ease, transform 0.2s ease;
+  }
+  
+  .go-btn:hover {
+    background-color: #0077a6;
+    transform: scale(1.05);
+  }
+  
+  /* Responsive layout */
+  @media (max-width: 768px) {
+    .destination-card.horizontal {
+      flex-direction: column;
+      height: auto;
+    }
+  
+    .card-image {
+      flex: none;
+      height: 200px;
+    }
+  
+    .card-image img {
+      width: 100%;
+      height: 100%;
+    }
+  
+    .destination-info {
+      text-align: center;
+      padding: 1rem;
+    }
+  }
+  
+  
+  /*Footer Section*/
+  footer a:hover {
+    color: #ffc107;
+    transition: color 0.3s ease;
+  }
+  
+  footer i.bi {
+    transition: transform 0.3s ease;
+  }
+  
+  footer i.bi:hover {
+    transform: scale(1.2);
+  }
+  /*Footer Section*/
+  
+  .destination-card .carousel {
+    height: 100%;
+  }
+
+  .destination-card .carousel-inner {
+    height: 100%;
+  }
+
+  .destination-card .carousel-item {
+    height: 100%;
+  }
+
+  .destination-card .carousel-item img {
+    height: 100%;
+    object-fit: cover;
+  }
+
+  .destination-card.horizontal .carousel {
+    height: 100%;
+    width: 100%;
+  }
+
+  .destination-card.horizontal .carousel-item img {
+    height: 100%;
+    width: 100%;
+    object-fit: cover;
+  }
+
+  .carousel-control-prev,
+  .carousel-control-next {
+    width: 10%;
+    opacity: 0;
+    transition: opacity 0.3s ease;
+  }
+
+  .carousel:hover .carousel-control-prev,
+  .carousel:hover .carousel-control-next {
+    opacity: 0.8;
+  }
+
+  .carousel-control-prev-icon,
+  .carousel-control-next-icon {
+    background-color: rgba(0, 0, 0, 0.5);
+    border-radius: 50%;
+    padding: 1rem;
+  }
+
+  .destination-card .favorite-icon {
+    z-index: 2;
+  }
+   </style>
+</head>
+<body>
+
+  <!-- Navigation -->
+  <header>
+    <nav class="navbar navbar-expand-lg navbar-dark fixed-top custom-navbar">
+      <div class="container-fluid px-4">
+        <!-- Brand -->
+        <a class="navbar-brand fw-bold fs-4 me-5" href="#">VisitaPinas.</a>
+    
+        <!-- Toggler -->
+        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
+          <span class="navbar-toggler-icon"></span>
+        </button>
+    
+        <!-- Navbar content -->
+        <div class="collapse navbar-collapse justify-content-center" id="navbarNav">
+          <!-- Centered Nav Links -->
+          <ul class="navbar-nav gap-4">
+            <li class="nav-item">
+              <a class="nav-link active fs-7" href="index.html">Home</a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link fs-7" href="#">Destinations</a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link fs-7" href="Package.html">Packages</a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link fs-7" href="Contact.html">Contact</a>
+            </li>
+            <li class="nav-item dropdown">
+              <a class="nav-link fs-7 dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                About Us
+              </a>
+              <ul class="dropdown-menu">
+                <li><a class="dropdown-item" href="Aboutus.html">About Us</a></li>
+                <li><a class="dropdown-item" href="Blog.html">Blog</a></li>
+                <li><a class="dropdown-item" href="Emergency.html">Emergency Help</a></li>
+                <li><a class="dropdown-item" href="itinerary-builder.html">Itinerary Builder</a></li>
+                <li><a class="dropdown-item" href="FAQ.html">FAQ</a></li>
+                <li><a class="dropdown-item" href="Feedback.html">Feedback</a></li>
+              </ul>
+            </li>
+          </ul>
+        </div>
+    
+        <!-- Login Button on Right -->
+        <a href="#" class="btn btn-outline-light d-none d-lg-flex align-items-center ms-auto">
+          <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" fill="currentColor" class="bi bi-person" viewBox="0 0 16 16">
+            <path d="M8 8a3 3 0 1 0 0-6 3 3 0 0 0 0 6z"/>
+            <path fill-rule="evenodd" d="M8 9a5 5 0 0 0-4.546 2.916C3.11 12.72 4.27 14 5.772 14h4.456c1.502 0 2.662-1.28 2.318-2.084A5 5 0 0 0 8 9z"/>
+          </svg>
+          <span class="ms-2">Login</span>
+        </a>
+
+        <!-- Favorites Icon -->
+        <a href="favorites.html" class="ms-2 text-white position-relative" title="My Favorites">
+          <i class="bi bi-heart-fill fs-5"></i>
+          <span class="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-danger favorites-count">
+            2
+          </span>
+        </a>
+      </div>
+    </nav>
+  </header>
+
+  <section id="destination-hero" class="d-flex align-items-center justify-content-center text-white text-center" style="min-height: 70vh; position: relative; overflow: hidden;">
+    <!-- Slideshow container -->
+    <div id="slideshow" style="position: absolute; top: 0; left: 0; height: 100%; width: 100%; z-index: -1;">
+      <!-- Slideshow images -->
+      <img src="images/Homebg.jpg" class="slideshow-img" style="opacity: 1;">
+      <img src="images/sunset.jpg" class="slideshow-img" style="opacity: 0;">
+      <img src="images/hills.jpg" class="slideshow-img" style="opacity: 0;">
+    </div>
+  
+    <!-- Arrow navigation -->
+    <div class="arrow-left" style="position: absolute; left: 10px; top: 50%; transform: translateY(-50%); cursor: pointer; z-index: 1;">
+        <i class="bi bi-chevron-left" style="font-size: 30px; color: white;"></i>
+    </div>
+    <div class="arrow-right" style="position: absolute; right: 10px; top: 50%; transform: translateY(-50%); cursor: pointer; z-index: 1;">
+        <i class="bi bi-chevron-right" style="font-size: 30px; color: white;"></i>
+    </div>
+  
+  
+    <!-- Centered Text -->
+    <div class="container">
+      <h1 class="display-5 fw-bold">Top Destinations in the Philippines</h1>
+      <p class="lead">Uncover the most scenic and unforgettable travel spots across the islands.</p>
+    </div>
+  </section>
+  
+
+<!-- Popular Destinations Section -->
+<section class="py-5 bg-light" id="popular-destinations">
+    <div class="container">
+      <h2 class="text-center text-black fw-semibold mb-2 section-title">Popular Destinations</h2>
+      <p class="text-center text-secondary mb-5">Discover the most visited places in the Philippines where adventure meets beauty.</p>
+  
+      <div class="row g-4">
+        <!-- Card 1 -->
+        <div class="col-md-4 col-sm-6">
+          <div class="card destination-card position-relative h-100 shadow-sm">
+            <div id="carouselBoracay" class="carousel slide" data-bs-ride="carousel">
+              <div class="carousel-inner">
+                <div class="carousel-item active">
+                  <img src="images/boracay.jpg" class="card-img-top" alt="Boracay Beach">
+                </div>
+                <div class="carousel-item">
+                  <img src="images/boracay2.jpg" class="card-img-top" alt="Boracay Sunset">
+                </div>
+                <div class="carousel-item">
+                  <img src="images/boracay3.jpg" class="card-img-top" alt="Boracay Activities">
+                </div>
+              </div>
+              <button class="carousel-control-prev" type="button" data-bs-target="#carouselBoracay" data-bs-slide="prev">
+                <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+                <span class="visually-hidden">Previous</span>
+              </button>
+              <button class="carousel-control-next" type="button" data-bs-target="#carouselBoracay" data-bs-slide="next">
+                <span class="carousel-control-next-icon" aria-hidden="true"></span>
+                <span class="visually-hidden">Next</span>
+              </button>
+            </div>
+            <div class="favorite-icon">
+              <i class="bi bi-heart"></i>
+            </div>
+            <div class="card-body">
+              <h5 class="card-title">Boracay</h5>
+              <p class="card-text">Famous for its white-sand beaches and vibrant nightlife.</p>
+              <div class="d-flex justify-content-between align-items-center">
+                <div class="text-warning">
+                  <i class="bi bi-star-fill"></i>
+                  <i class="bi bi-star-fill"></i>
+                  <i class="bi bi-star-fill"></i>
+                  <i class="bi bi-star-half"></i>
+                  <i class="bi bi-star"></i>
+                </div>
+                <a href="booking.html" class="btn btn-outline-primary rounded-circle p-2">
+                  <i class="bi bi-arrow-right"></i>
+                </a>
+              </div>
+            </div>
+          </div>
+        </div>
+  
+        <!-- Card 2 -->
+        <div class="col-md-4 col-sm-6">
+          <div class="card destination-card position-relative h-100 shadow-sm">
+            <div id="carouselBaguio" class="carousel slide" data-bs-ride="carousel">
+              <div class="carousel-inner">
+                <div class="carousel-item active">
+                  <img src="images/baguio.jpg" class="card-img-top" alt="Baguio City">
+                </div>
+                <div class="carousel-item">
+                  <img src="images/baguio2.jpg" class="card-img-top" alt="Baguio Pine Trees">
+                </div>
+                <div class="carousel-item">
+                  <img src="images/baguio3.jpg" class="card-img-top" alt="Baguio Attractions">
+                </div>
+              </div>
+              <button class="carousel-control-prev" type="button" data-bs-target="#carouselBaguio" data-bs-slide="prev">
+                <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+                <span class="visually-hidden">Previous</span>
+              </button>
+              <button class="carousel-control-next" type="button" data-bs-target="#carouselBaguio" data-bs-slide="next">
+                <span class="carousel-control-next-icon" aria-hidden="true"></span>
+                <span class="visually-hidden">Next</span>
+              </button>
+            </div>
+            <div class="favorite-icon">
+              <i class="bi bi-heart"></i>
+            </div>
+            <div class="card-body">
+              <h5 class="card-title">Baguio</h5>
+              <p class="card-text">The summer capital with cool breeze and pine trees.</p>
+              <div class="d-flex justify-content-between align-items-center">
+                <div class="text-warning">
+                  <i class="bi bi-star-fill"></i>
+                  <i class="bi bi-star-fill"></i>
+                  <i class="bi bi-star-fill"></i>
+                  <i class="bi bi-star"></i>
+                  <i class="bi bi-star"></i>
+                </div>
+                <a href="booking.html" class="btn btn-outline-primary rounded-circle p-2">
+                  <i class="bi bi-arrow-right"></i>
+                </a>
+              </div>
+            </div>
+          </div>
+        </div>
+  
+        <!-- Card 3 -->
+        <div class="col-md-4 col-sm-6">
+          <div class="card destination-card position-relative h-100 shadow-sm">
+            <div id="carouselBohol" class="carousel slide" data-bs-ride="carousel">
+              <div class="carousel-inner">
+                <div class="carousel-item active">
+                  <img src="images/bohol2.jpg" class="card-img-top" alt="Chocolate Hills">
+                </div>
+                <div class="carousel-item">
+                  <img src="images/bohol1.jpg" class="card-img-top" alt="Bohol Beach">
+                </div>
+                <div class="carousel-item">
+                  <img src="images/bohol3.jpg" class="card-img-top" alt="Bohol Tarsier">
+                </div>
+              </div>
+              <button class="carousel-control-prev" type="button" data-bs-target="#carouselBohol" data-bs-slide="prev">
+                <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+                <span class="visually-hidden">Previous</span>
+              </button>
+              <button class="carousel-control-next" type="button" data-bs-target="#carouselBohol" data-bs-slide="next">
+                <span class="carousel-control-next-icon" aria-hidden="true"></span>
+                <span class="visually-hidden">Next</span>
+              </button>
+            </div>
+            <div class="favorite-icon">
+              <i class="bi bi-heart"></i>
+            </div>
+            <div class="card-body">
+              <h5 class="card-title">Bohol</h5>
+              <p class="card-text">Explore the iconic Chocolate Hills and tarsiers.</p>
+              <div class="d-flex justify-content-between align-items-center">
+                <div class="text-warning">
+                  <i class="bi bi-star-fill"></i>
+                  <i class="bi bi-star-fill"></i>
+                  <i class="bi bi-star-fill"></i>
+                  <i class="bi bi-star-fill"></i>
+                  <i class="bi bi-star-half"></i>
+                </div>
+                <a href="booking.html" class="btn btn-outline-primary rounded-circle p-2">
+                  <i class="bi bi-arrow-right"></i>
+                </a>
+              </div>
+            </div>
+          </div>
+        </div>
+  
+        <!-- Card 4 -->
+        <div class="col-md-4 col-sm-6">
+          <div class="card destination-card position-relative h-100 shadow-sm">
+            <div id="carouselPalawan" class="carousel slide" data-bs-ride="carousel">
+              <div class="carousel-inner">
+                <div class="carousel-item active">
+                  <img src="images/palawan.jpg" class="card-img-top" alt="Palawan Beach">
+                </div>
+                <div class="carousel-item">
+                  <img src="images/palawan2.jpg" class="card-img-top" alt="Palawan Lagoon">
+                </div>
+                <div class="carousel-item">
+                  <img src="images/palawan3.jpg" class="card-img-top" alt="Palawan Islands">
+                </div>
+              </div>
+              <button class="carousel-control-prev" type="button" data-bs-target="#carouselPalawan" data-bs-slide="prev">
+                <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+                <span class="visually-hidden">Previous</span>
+              </button>
+              <button class="carousel-control-next" type="button" data-bs-target="#carouselPalawan" data-bs-slide="next">
+                <span class="carousel-control-next-icon" aria-hidden="true"></span>
+                <span class="visually-hidden">Next</span>
+              </button>
+            </div>
+            <div class="favorite-icon">
+              <i class="bi bi-heart"></i>
+            </div>
+            <div class="card-body">
+              <h5 class="card-title">Palawan</h5>
+              <p class="card-text">Known for its lagoons and hidden beaches in El Nido.</p>
+              <div class="d-flex justify-content-between align-items-center">
+                <div class="text-warning">
+                  <i class="bi bi-star-fill"></i>
+                  <i class="bi bi-star-fill"></i>
+                  <i class="bi bi-star-fill"></i>
+                  <i class="bi bi-star-fill"></i>
+                  <i class="bi bi-star"></i>
+                </div>
+                <a href="booking.html" class="btn btn-outline-primary rounded-circle p-2">
+                  <i class="bi bi-arrow-right"></i>
+                </a>
+              </div>
+            </div>
+          </div>
+        </div>
+  
+        <!-- Card 5 -->
+        <div class="col-md-4 col-sm-6">
+          <div class="card destination-card position-relative h-100 shadow-sm">
+            <div id="carouselManila" class="carousel slide" data-bs-ride="carousel">
+              <div class="carousel-inner">
+                <div class="carousel-item active">
+                  <img src="images/manila.jpg" class="card-img-top" alt="Manila City">
+                </div>
+                <div class="carousel-item">
+                  <img src="images/manila2.jpg" class="card-img-top" alt="Manila Bay">
+                </div>
+                <div class="carousel-item">
+                  <img src="images/manila3.jpg" class="card-img-top" alt="Manila Historical">
+                </div>
+              </div>
+              <button class="carousel-control-prev" type="button" data-bs-target="#carouselManila" data-bs-slide="prev">
+                <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+                <span class="visually-hidden">Previous</span>
+              </button>
+              <button class="carousel-control-next" type="button" data-bs-target="#carouselManila" data-bs-slide="next">
+                <span class="carousel-control-next-icon" aria-hidden="true"></span>
+                <span class="visually-hidden">Next</span>
+              </button>
+            </div>
+            <div class="favorite-icon">
+              <i class="bi bi-heart"></i>
+            </div>
+            <div class="card-body">
+              <h5 class="card-title">Manila</h5>
+              <p class="card-text">The capital city full of culture and history.</p>
+              <div class="d-flex justify-content-between align-items-center">
+                <div class="text-warning">
+                  <i class="bi bi-star-fill"></i>
+                  <i class="bi bi-star-fill"></i>
+                  <i class="bi bi-star"></i>
+                  <i class="bi bi-star"></i>
+                  <i class="bi bi-star"></i>
+                </div>
+                <a href="booking.html" class="btn btn-outline-primary rounded-circle p-2">
+                  <i class="bi bi-arrow-right"></i>
+                </a>
+              </div>
+            </div>
+          </div>
+        </div>
+  
+        <!-- Card 6 -->
+        <div class="col-md-4 col-sm-6">
+          <div class="card destination-card position-relative h-100 shadow-sm">
+            <div id="carouselAlbay" class="carousel slide" data-bs-ride="carousel">
+              <div class="carousel-inner">
+                <div class="carousel-item active">
+                  <img src="images/albay.jpg" class="card-img-top" alt="Mayon Volcano">
+                </div>
+                <div class="carousel-item">
+                  <img src="images/albay2.jpg" class="card-img-top" alt="Albay Gulf">
+                </div>
+                <div class="carousel-item">
+                  <img src="images/albay3.jpg" class="card-img-top" alt="Albay Churches">
+                </div>
+              </div>
+              <button class="carousel-control-prev" type="button" data-bs-target="#carouselAlbay" data-bs-slide="prev">
+                <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+                <span class="visually-hidden">Previous</span>
+              </button>
+              <button class="carousel-control-next" type="button" data-bs-target="#carouselAlbay" data-bs-slide="next">
+                <span class="carousel-control-next-icon" aria-hidden="true"></span>
+                <span class="visually-hidden">Next</span>
+              </button>
+            </div>
+            <div class="favorite-icon">
+              <i class="bi bi-heart"></i>
+            </div>
+            <div class="card-body">
+              <h5 class="card-title">Albay</h5>
+              <p class="card-text">Home to the majestic Mayon Volcano with perfect cone shape.</p>
+              <div class="d-flex justify-content-between align-items-center">
+                <div class="text-warning">
+                  <i class="bi bi-star-fill"></i>
+                  <i class="bi bi-star-fill"></i>
+                  <i class="bi bi-star-half"></i>
+                  <i class="bi bi-star"></i>
+                  <i class="bi bi-star"></i>
+                </div>
+                <a href="booking.html" class="btn btn-outline-primary rounded-circle p-2">
+                  <i class="bi bi-arrow-right"></i>
+                </a>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+  
+  <!-- Category Destinations Section -->
+<section class="category-destinations-section py-5" id="category-destinations">
+    <h2 class="text-center mb-2 fw-bold">Category Destinations</h2>
+    <p class="text-center text-muted mb-5">Discover places based on your favorite type of adventure.</p>
+  
+    <div class="category-grid">
+      <!-- Beaches -->
+      <div class="category-card">
+        <img src="images/beaches.jpg" alt="Beaches">
+        <div class="category-info">
+          <h5>Beaches</h5>
+          <p>Sun, sand, and sea relaxation.</p>
+          <a href="category-destinations.html" class="view-more-btn">View More</a>
+        </div>
+      </div>
+  
+      <!-- Mountains -->
+      <div class="category-card">
+        <img src="images/mountains.jpg" alt="Mountains">
+        <div class="category-info">
+          <h5>Mountains</h5>
+          <p>Perfect for hiking and fresh air.</p>
+          <a href="category-destinations.html" class="view-more-btn">View More</a>
+        </div>
+      </div>
+  
+      <!-- Islands -->
+      <div class="category-card">
+        <img src="images/islands.jpg" alt="Islands">
+        <div class="category-info">
+          <h5>Islands</h5>
+          <p>Escape to tropical paradise.</p>
+          <a href="category-destinations.html" class="view-more-btn">View More</a>
+        </div>
+      </div>
+  
+      <!-- Historical -->
+      <div class="category-card">
+        <img src="images/historical.jpg" alt="Historical">
+        <div class="category-info">
+          <h5>Historical</h5>
+          <p>Explore rich heritage and culture.</p>
+          <a href="category-destinations.html" class="view-more-btn">View More</a>
+        </div>
+      </div>
+    </div>
+  </section>
+
+
+  <!-- Special Offer Section -->
+<section class="special-offer py-5" style="background: linear-gradient(135deg, #f8f9fa, #f8f9fa);">
+    <div class="container">
+      <div class="row align-items-center bg-white shadow rounded-4 overflow-hidden p-4 g-0">
+        <div class="col-md-6">
+          <img src="https://source.unsplash.com/600x400/?philippines,resort" class="img-fluid rounded-3" alt="Special Offer">
+        </div>
+        <div class="col-md-6 p-4">
+          <h2 class="fw-bold text-dark mb-3">🌴 Special Summer Offer!</h2>
+          <p class="text-secondary mb-4">Book your next adventure now and get up to <strong>30% off</strong> on selected destinations. Experience paradise with our limited-time deals!</p>
+          <a href="#" class="btn btn-primary px-4 py-2 rounded-pill shadow-sm">Book Now</a>
+        </div>
+      </div>
+    </div>
+  </section>
+
+
+  <section class="more-destinations-section py-5">
+    <div class="container text-center mb-4">
+      <h2 class="section-title">More Destinations</h2>
+      <p>Discover more hidden gems and iconic places around Cabuyao.</p>
+    </div>
+  
+    <div class="more-destinations-grid">
+      <div class="destination-card horizontal">
+        <div class="card-image">
+          <div id="carouselHiddenFalls" class="carousel slide" data-bs-ride="carousel">
+            <div class="carousel-inner">
+              <div class="carousel-item active">
+                <img src="images/hiddenfalls.jpg" alt="Hidden Falls">
+              </div>
+              <div class="carousel-item">
+                <img src="images/hiddenfalls2.jpg" alt="Hidden Falls View">
+              </div>
+              <div class="carousel-item">
+                <img src="images/hiddenfalls3.jpg" alt="Hidden Falls Trail">
+              </div>
+            </div>
+            <button class="carousel-control-prev" type="button" data-bs-target="#carouselHiddenFalls" data-bs-slide="prev">
+              <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+              <span class="visually-hidden">Previous</span>
+            </button>
+            <button class="carousel-control-next" type="button" data-bs-target="#carouselHiddenFalls" data-bs-slide="next">
+              <span class="carousel-control-next-icon" aria-hidden="true"></span>
+              <span class="visually-hidden">Next</span>
+            </button>
+          </div>
+        </div>
+        <div class="destination-info">
+          <h5>Hidden Falls</h5>
+          <p>Immerse yourself in the serene beauty of nature.</p>
+          <a href="#" class="go-btn"><i class="bi bi-arrow-right-circle-fill"></i> Go</a>
+        </div>
+      </div>
+  
+      <div class="destination-card horizontal">
+        <div class="card-image">
+          <div id="carouselTagapo" class="carousel slide" data-bs-ride="carousel">
+            <div class="carousel-inner">
+              <div class="carousel-item active">
+                <img src="images/tagapo.jpg" alt="Mount Tagapo">
+              </div>
+              <div class="carousel-item">
+                <img src="images/tagapo2.jpg" alt="Mount Tagapo Trail">
+              </div>
+              <div class="carousel-item">
+                <img src="images/tagapo3.jpg" alt="Mount Tagapo Summit">
+              </div>
+            </div>
+            <button class="carousel-control-prev" type="button" data-bs-target="#carouselTagapo" data-bs-slide="prev">
+              <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+              <span class="visually-hidden">Previous</span>
+            </button>
+            <button class="carousel-control-next" type="button" data-bs-target="#carouselTagapo" data-bs-slide="next">
+              <span class="carousel-control-next-icon" aria-hidden="true"></span>
+              <span class="visually-hidden">Next</span>
+            </button>
+          </div>
+        </div>
+        <div class="destination-info">
+          <h5>Mount Tagapo</h5>
+          <p>Hike to the peak and take in breathtaking views.</p>
+          <a href="#" class="go-btn"><i class="bi bi-arrow-right-circle-fill"></i> Go</a>
+        </div>
+      </div>
+  
+      <div class="destination-card horizontal">
+        <div class="card-image">
+          <div id="carouselBaywalk" class="carousel slide" data-bs-ride="carousel">
+            <div class="carousel-inner">
+              <div class="carousel-item active">
+                <img src="images/baywalk.jpg" alt="Lakeside Baywalk">
+              </div>
+              <div class="carousel-item">
+                <img src="images/baywalk2.jpg" alt="Baywalk Sunset">
+              </div>
+              <div class="carousel-item">
+                <img src="images/baywalk3.jpg" alt="Baywalk Night">
+              </div>
+            </div>
+            <button class="carousel-control-prev" type="button" data-bs-target="#carouselBaywalk" data-bs-slide="prev">
+              <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+              <span class="visually-hidden">Previous</span>
+            </button>
+            <button class="carousel-control-next" type="button" data-bs-target="#carouselBaywalk" data-bs-slide="next">
+              <span class="carousel-control-next-icon" aria-hidden="true"></span>
+              <span class="visually-hidden">Next</span>
+            </button>
+          </div>
+        </div>
+        <div class="destination-info">
+          <h5>Lakeside Baywalk</h5>
+          <p>Enjoy the breeze, street food, and sunset walks.</p>
+          <a href="#" class="go-btn"><i class="bi bi-arrow-right-circle-fill"></i> Go</a>
+        </div>
+      </div>
+
+      <div class="destination-card horizontal">
+        <div class="card-image">
+          <div id="carouselVigan" class="carousel slide" data-bs-ride="carousel">
+            <div class="carousel-inner">
+              <div class="carousel-item active">
+                <img src="images/vigan.jpg" alt="Vigan City">
+              </div>
+              <div class="carousel-item">
+                <img src="images/vigan2.jpg" alt="Vigan Heritage">
+              </div>
+              <div class="carousel-item">
+                <img src="images/vigan3.jpg" alt="Vigan Streets">
+              </div>
+            </div>
+            <button class="carousel-control-prev" type="button" data-bs-target="#carouselVigan" data-bs-slide="prev">
+              <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+              <span class="visually-hidden">Previous</span>
+            </button>
+            <button class="carousel-control-next" type="button" data-bs-target="#carouselVigan" data-bs-slide="next">
+              <span class="carousel-control-next-icon" aria-hidden="true"></span>
+              <span class="visually-hidden">Next</span>
+            </button>
+          </div>
+        </div>
+        <div class="destination-info">
+          <h5>Vigan City</h5>
+          <p>Step back in time in this historic UNESCO World Heritage site.</p>
+          <a href="#" class="go-btn"><i class="bi bi-arrow-right-circle-fill"></i> Go</a>
+        </div>
+      </div>
+
+      <div class="destination-card horizontal">
+        <div class="card-image">
+          <div id="carouselBanaue" class="carousel slide" data-bs-ride="carousel">
+            <div class="carousel-inner">
+              <div class="carousel-item active">
+                <img src="images/banaue.jpg" alt="Banaue Rice Terraces">
+              </div>
+              <div class="carousel-item">
+                <img src="images/banaue2.jpg" alt="Banaue Village">
+              </div>
+              <div class="carousel-item">
+                <img src="images/banaue3.jpg" alt="Banaue Culture">
+              </div>
+            </div>
+            <button class="carousel-control-prev" type="button" data-bs-target="#carouselBanaue" data-bs-slide="prev">
+              <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+              <span class="visually-hidden">Previous</span>
+            </button>
+            <button class="carousel-control-next" type="button" data-bs-target="#carouselBanaue" data-bs-slide="next">
+              <span class="carousel-control-next-icon" aria-hidden="true"></span>
+              <span class="visually-hidden">Next</span>
+            </button>
+          </div>
+        </div>
+        <div class="destination-info">
+          <h5>Banaue Rice Terraces</h5>
+          <p>Marvel at these ancient engineering wonders carved into the mountains.</p>
+          <a href="#" class="go-btn"><i class="bi bi-arrow-right-circle-fill"></i> Go</a>
+        </div>
+      </div>
+
+      <div class="destination-card horizontal">
+        <div class="card-image">
+          <div id="carouselIntramuros" class="carousel slide" data-bs-ride="carousel">
+            <div class="carousel-inner">
+              <div class="carousel-item active">
+                <img src="images/intramuros.jpg" alt="Intramuros">
+              </div>
+              <div class="carousel-item">
+                <img src="images/intramuros2.jpg" alt="Intramuros Walls">
+              </div>
+              <div class="carousel-item">
+                <img src="images/intramuros3.jpg" alt="Intramuros Church">
+              </div>
+            </div>
+            <button class="carousel-control-prev" type="button" data-bs-target="#carouselIntramuros" data-bs-slide="prev">
+              <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+              <span class="visually-hidden">Previous</span>
+            </button>
+            <button class="carousel-control-next" type="button" data-bs-target="#carouselIntramuros" data-bs-slide="next">
+              <span class="carousel-control-next-icon" aria-hidden="true"></span>
+              <span class="visually-hidden">Next</span>
+            </button>
+          </div>
+        </div>
+        <div class="destination-info">
+          <h5>Intramuros</h5>
+          <p>Explore the historic walled city of Manila.</p>
+          <a href="#" class="go-btn"><i class="bi bi-arrow-right-circle-fill"></i> Go</a>
+        </div>
+      </div>
+
+    </div>
+  </section>
+  
+  
+  
+
+<!-- Footer -->
+<footer class="text-white pt-5 pb-3" style="background: linear-gradient(to right, #0f2027, #203a43, #2c5364);">
+    <div class="container">
+      <div class="row text-center text-md-start">
+        <!-- Logo and About -->
+        <div class="col-md-4 mb-4">
+          <h4 class="fw-bold">VisitaPinas.</h4>
+          <p>Your ultimate travel partner in exploring the Philippines. Discover beauty, culture, and adventure with ease.</p>
+        </div>
+  
+        <!-- Navigation Links -->
+        <div class="col-md-4 mb-4">
+          <h5 class="fw-semibold">Quick Links</h5>
+          <ul class="list-unstyled">
+            <li><a href="#" class="text-white text-decoration-none">Home</a></li>
+            <li><a href="#" class="text-white text-decoration-none">Destinations</a></li>
+            <li><a href="#" class="text-white text-decoration-none">Packages</a></li>
+            <li><a href="#" class="text-white text-decoration-none">Contact</a></li>
+          </ul>
+        </div>
+  
+        <!-- Social Media & Contact -->
+        <div class="col-md-4 mb-4">
+          <h5 class="fw-semibold">Connect With Us</h5>
+          <div class="d-flex gap-3 justify-content-center justify-content-md-start">
+            <a href="#" class="text-white fs-4"><i class="bi bi-facebook"></i></a>
+            <a href="#" class="text-white fs-4"><i class="bi bi-twitter"></i></a>
+            <a href="#" class="text-white fs-4"><i class="bi bi-instagram"></i></a>
+            <a href="#" class="text-white fs-4"><i class="bi bi-envelope-fill"></i></a>
+          </div>
+          <p class="mt-3 mb-0"><i class="bi bi-geo-alt-fill me-2"></i>Philippines</p>
+          <p class="mb-0"><i class="bi bi-phone-fill me-2"></i>+63 912 345 6789</p>
+        </div>
+      </div>
+  
+      <hr class="border-light" />
+  
+      <!-- Bottom Text -->
+      <div class="text-center small">
+        &copy; 2025 VisitaPinas. All rights reserved.
+      </div>
+    </div>
+  </footer>
+  
+  
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+    <script>
+        let slideIndex = 0;
+        const slides = document.querySelectorAll("#slideshow img");
+        const totalSlides = slides.length;
+    
+        // Function to change the slide
+        function changeSlide() {
+          slides.forEach((slide, index) => {
+            slide.style.opacity = index === slideIndex ? '1' : '0';
+          });
+          slideIndex = (slideIndex + 1) % totalSlides;
+        }
+    
+        // Auto slide every 3 seconds
+        setInterval(changeSlide, 3000);
+    
+        // Arrow navigation
+        const prevArrow = document.querySelector('.arrow-left');
+        const nextArrow = document.querySelector('.arrow-right');
+    
+        prevArrow.addEventListener('click', () => {
+          slideIndex = (slideIndex - 1 + totalSlides) % totalSlides;
+          changeSlide();
+        });
+    
+        nextArrow.addEventListener('click', () => {
+          slideIndex = (slideIndex + 1) % totalSlides;
+          changeSlide();
+        });
+
+        changeSlide();
+      </script>
+    
+    <style>
+      .favorite-icon {
+        position: absolute;
+        top: 15px;
+        right: 15px;
+        background: rgba(255, 255, 255, 0.9);
+        width: 35px;
+        height: 35px;
+        border-radius: 50%;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        cursor: pointer;
+        transition: all 0.3s ease;
+        z-index: 1;
+      }
+
+      .favorite-icon i {
+        color: #dc3545;
+        font-size: 1.2rem;
+        transition: all 0.3s ease;
+      }
+
+      .favorite-icon:hover {
+        transform: scale(1.1);
+      }
+
+      .favorite-icon.active i {
+        animation: heartBeat 0.3s ease-in-out;
+      }
+
+      @keyframes heartBeat {
+        0% { transform: scale(1); }
+        50% { transform: scale(1.2); }
+        100% { transform: scale(1); }
+      }
+
+      .favorites-count {
+        background: #dc3545;
+        color: white;
+        border-radius: 50%;
+        padding: 0.25rem 0.5rem;
+        font-size: 0.8rem;
+        margin-left: 0.5rem;
+      }
+    </style>
+
+    <script>
+      // Add this to your existing script section
+      let favoritesCount = 2; // Initial count from sample data
+
+      // Toggle favorite and update count
+      document.querySelectorAll('.favorite-icon').forEach(icon => {
+        icon.addEventListener('click', function(e) {
+          e.preventDefault(); // Prevent card click
+          const heartIcon = this.querySelector('i');
+          this.classList.add('active');
+          
+          if (heartIcon.classList.contains('bi-heart')) {
+            heartIcon.classList.replace('bi-heart', 'bi-heart-fill');
+            favoritesCount++;
+          } else {
+            heartIcon.classList.replace('bi-heart-fill', 'bi-heart');
+            favoritesCount--;
+          }
+          
+          // Update count in navbar
+          document.querySelector('.favorites-count').textContent = favoritesCount;
+          
+          // Remove animation class after animation ends
+          setTimeout(() => {
+            this.classList.remove('active');
+          }, 300);
+        });
+      });
+    </script>
+    
+  </body>
+  </html>
+  
